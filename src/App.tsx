@@ -1,17 +1,14 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          <h1 className="text-5xl font-bold underline">
-            Finally with tailwind
-          </h1>
-        </p>
+        <img className="absolute object-cover w-full h-screen" src={"https://source.unsplash.com/random/1920x1080?dark,winter,nature"} alt={"Koa Buidl no neda"} />
+        <h1 className="animate-spin-slow text-9xl font-bold w-1 h-1 hover:uppercase">
+          ich dreh durch
+        </h1>
       </header>
     </div>
   );
