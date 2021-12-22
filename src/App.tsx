@@ -1,36 +1,40 @@
-import { useState } from 'react';
 import './App.css';
-import { TopNavigation } from './components/navigation/TopNavigation';
+import { Route, Routes } from 'react-router-dom';
+import { TopNavigation, ITopNavigationItem } from './components/navigation/TopNavigation';
+import { Content } from './components/main/Content';
 
 function App() {
 
-  const [text, setText] = useState('Daheim...');
+  const menuItems: ITopNavigationItem[] = [
+    {
+      name: 'home',
+      to: '/home'
+    },
+    {
+      name: 'more home',
+      to: '/more_home'
+    },
+    {
+      name: 'derper params',
+      to: '/derper/vom Feinsten'
+    }
+  ];
 
   return (
     <div className="flex flex-col h-screen bg-cover bg-main">
       <header className="bg-slate-800">
-        <TopNavigation
-          onHomeClicked={() => {
-            setText('Daheim...');
-          }}
-          onNotHomeClicked={() => {
-            setText('Nicht Daheim...');
-          }}
-          onFarFromHomeClicked={() => {
-            setText('Sehr weit weg von Daheim...');
-          }}
-        />
+        <TopNavigation items={menuItems} />
       </header>
       <main className="mb-auto mx-auto">
-        <div className="flex text-white my-10">
-          <h1 className="text-4xl font-bold">
-            {text}
-          </h1>
-        </div>
+        <Routes>
+          <Route path="/home" element={<Content name={"Daheim"} />} />
+          <Route path="/more_home" element={<Content name={"Mehr Daheim"} />} />
+          <Route path="/derper/:parameter" element={<Content name={"Am Daheimsten"} />} />
+        </Routes>
       </main>
       <footer className="bg-slate-800">
-        <h1 className="text-2xl p-10 hover:uppercase text-white text-center">
-          I bims 1 footer
+        <h1 className="p-8 hover:uppercase text-white text-center">
+          I bims 1 footer © sgreg0r
         </h1>
       </footer>
     </div >
