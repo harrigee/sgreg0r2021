@@ -25,7 +25,7 @@ function App() {
       <header className="bg-slate-800">
         <TopNavigation items={menuItems} />
       </header>
-      <main className="mb-auto mx-auto">
+      <main className='flex place-items-start justify-center h-screen'>
         <Routes>
           <Route path="/dahoam" element={<Content name={"Daheim"} />} />
           <Route path="/mehr_dahoam" element={<Content name={"Mehr Daheim"} />} />
