@@ -1,16 +1,39 @@
-import React from 'react';
+import { useState } from 'react';
 import './App.css';
+import { TopNavigation } from './components/navigation/TopNavigation';
 
 function App() {
+
+  const [text, setText] = useState('Daheim...');
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img className="absolute object-cover w-full h-screen" src={"https://source.unsplash.com/random/1920x1080?dark,winter,nature"} alt={"Koa Buidl no neda"} />
-        <h1 className="animate-spin-slow text-9xl font-bold w-1 h-1 hover:uppercase">
-          ich dreh durch
-        </h1>
+    <div className="flex flex-col h-screen bg-cover bg-main">
+      <header className="bg-slate-800">
+        <TopNavigation
+          onHomeClicked={() => {
+            setText('Daheim...');
+          }}
+          onNotHomeClicked={() => {
+            setText('Nicht Daheim...');
+          }}
+          onFarFromHomeClicked={() => {
+            setText('Sehr weit weg von Daheim...');
+          }}
+        />
       </header>
-    </div>
+      <main className="mb-auto mx-auto">
+        <div className="flex text-white my-10">
+          <h1 className="text-4xl font-bold">
+            {text}
+          </h1>
+        </div>
+      </main>
+      <footer className="bg-slate-800">
+        <h1 className="text-2xl p-10 hover:uppercase text-white text-center">
+          I bims 1 footer
+        </h1>
+      </footer>
+    </div >
   );
 }
 
