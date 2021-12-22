@@ -7,16 +7,16 @@ function App() {
 
   const menuItems: ITopNavigationItem[] = [
     {
-      name: 'home',
-      to: '/home'
+      name: 'Dahoam',
+      to: '/dahoam'
     },
     {
-      name: 'more home',
-      to: '/more_home'
+      name: 'Noch Daheimer',
+      to: '/mehr_dahoam'
     },
     {
-      name: 'derper params',
-      to: '/derper/vom Feinsten'
+      name: 'Am Daheimsten',
+      to: '/am_daheimsten/vom Allerfeinsten'
     }
   ];
 
@@ -27,14 +27,14 @@ function App() {
       </header>
       <main className="mb-auto mx-auto">
         <Routes>
-          <Route path="/home" element={<Content name={"Daheim"} />} />
-          <Route path="/more_home" element={<Content name={"Mehr Daheim"} />} />
-          <Route path="/derper/:parameter" element={<Content name={"Am Daheimsten"} />} />
+          <Route path="/dahoam" element={<Content name={"Daheim"} />} />
+          <Route path="/mehr_dahoam" element={<Content name={"Mehr Daheim"} />} />
+          <Route path="/am_daheimsten/:wie_viel_daheim_parameter_id" element={<Content name={"Am Daheimsten"} />} />
         </Routes>
       </main>
       <footer className="bg-slate-800">
         <h1 className="p-8 hover:uppercase text-white text-center">
-          I bims 1 footer © sgreg0r
+          I bims 1 footer © sgreg0r - Nicht Design klauen!
         </h1>
       </footer>
     </div >
