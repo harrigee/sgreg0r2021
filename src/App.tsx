@@ -6,7 +6,7 @@ import { Input } from './components/main/Input';
 import { FormEvent, useState } from 'react';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from './secrets/firebaseConfig';
-
+import { getAnalytics } from "firebase/analytics";
 
 const initialRoutes: ITopNavigationItem[] = [
   {
@@ -20,6 +20,7 @@ const initialRoutes: ITopNavigationItem[] = [
 ];
 
 const app = initializeApp(firebaseConfig);
+getAnalytics(app);
 
 function App() {
 
