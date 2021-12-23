@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 
-export function Content({ name }: { name: string }) {
+export function Content({ name }: { name?: string }) {
 
     const { wie_viel_geheim_parameter_id } = useParams();
 
