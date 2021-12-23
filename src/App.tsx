@@ -4,6 +4,9 @@ import { TopNavigation, ITopNavigationItem } from './components/navigation/TopNa
 import { Content } from './components/main/Content';
 import { Input } from './components/main/Input';
 import { FormEvent, useState } from 'react';
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from './secrets/firebaseConfig';
+
 
 const initialRoutes: ITopNavigationItem[] = [
   {
@@ -15,6 +18,8 @@ const initialRoutes: ITopNavigationItem[] = [
     to: '/mehr_dahoam'
   }
 ];
+
+const app = initializeApp(firebaseConfig);
 
 function App() {
 
