@@ -1,1 +1,6 @@
-.App {}
+.App {
+    background-color: #170333;
+background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Cpolygon fill='%23d00cb5' points='957 450 539 900 1396 900'/%3E%3Cpolygon fill='%23aa0000' points='957 450 872.9 900 1396 900'/%3E%3Cpolygon fill='%23c50ab7' points='-60 900 398 662 816 900'/%3E%3Cpolygon fill='%23b50020' points='337 900 398 662 816 900'/%3E%3Cpolygon fill='%23c107b3' points='1203 546 1552 900 876 900'/%3E%3Cpolygon fill='%23b2003d' points='1203 546 1552 900 1162 900'/%3E%3Cpolygon fill='%23bb05a7' points='641 695 886 900 367 900'/%3E%3Cpolygon fill='%23af0055' points='587 900 641 695 886 900'/%3E%3Cpolygon fill='%23af02a5' points='1710 900 1401 632 1096 900'/%3E%3Cpolygon fill='%23a6006d' points='1710 900 1401 632 1365 900'/%3E%3Cpolygon fill='%23b200a6' points='1210 900 971 687 725 900'/%3E%3Cpolygon fill='%23890087' points='943 900 1210 900 971 687'/%3E%3C/svg%3E");
+background-attachment: fixed;
+background-size: cover;
+}

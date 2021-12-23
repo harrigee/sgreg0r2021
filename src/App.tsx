@@ -33,21 +33,21 @@ function App() {
     const routes = initialRoutes.slice();
     routes.push({
       name: value,
-      to: `/am_daheimsten/${value}`
+      to: `/geheime_route/${value}`
     });
     setRoutes(routes);
     navigate(`/geheime_route/${event.currentTarget.value}`);
   }
 
   return (
-    <div className="flex flex-col h-screen bg-cover bg-main">
+    <div className="App flex flex-col h-screen">
       <header className="bg-slate-800">
         <TopNavigation items={routes} />
       </header>
       <main className='flex flex-col items-center h-screen'>
         <Routes>
           <Route path="/dahoam" element={<Content name={"Daheim"} />} />
-          <Route path="/mehr_dahoam" element={<Content name={"Mehr Daheim"} />} />
+          <Route path="/mehr_dahoam" element={<Content name={"Noch Daheimer"} />} />
           <Route path="/geheime_route" element={<Content name={"Ohne Parameter mach ich keinen Meter"} />} />
           <Route path="/geheime_route/:wie_viel_geheim_parameter_id" element={<Content name={""} />} />
         </Routes>
