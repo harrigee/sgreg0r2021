@@ -38,7 +38,8 @@ function App() {
     user: undefined
   });
 
-  const [isSignedIn, setIsSignedIn] = useState(true);
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [isBooted, setIsBooted] = useState(false);
 
   useEffect(() => {
     const starCountRef = ref(database, 'data');
@@ -52,9 +53,11 @@ function App() {
 
     const unregisterAuthObserver = auth.onAuthStateChanged(user => {
       setIsSignedIn(!!user);
+      setIsBooted(true);
     });
 
     return () => unregisterAuthObserver();
+
   }, []);
 
   function onInput(event: FormEvent<HTMLInputElement>) {
@@ -82,19 +85,19 @@ function App() {
         <TopNavigation items={navigationItems()} />
       </header>
       <main className='flex flex-col items-center h-screen mt-8'>
-        <Routes>
-          <Route path="/" element={<Content value={data.value} user={data.user} />} />
-          <Route path="/geheime_route/:wie_viel_geheim_parameter_id" element={<Content />} />
-        </Routes>
-        {!isSignedIn &&
-          <div className='justify-center'>
-            <div className="text-2xl text-center mt-8 mb-16 text-white">
-              Register to write something!
+        {isBooted && !isSignedIn &&
+          <div className='justify-center mb-16'>
+            <div className="text-2xl font-bold text-center mb-16 text-white">
+              Register now to write something! (Please)
             </div>
             <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />
           </div>
         }
-        {isSignedIn &&
+        <Routes>
+          <Route path="/" element={<Content value={data.value} user={data.user} />} />
+          <Route path="/geheime_route/:wie_viel_geheim_parameter_id" element={<Content />} />
+        </Routes>
+        {isBooted && isSignedIn &&
           <Input onInput={onInput} />
         }
       </main>
