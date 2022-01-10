@@ -1,5 +1,5 @@
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import { Content } from './components/main/Content';
 import { Input } from './components/main/Input';
 import { FormEvent, useEffect, useState } from 'react';
@@ -19,15 +19,11 @@ const uiConfig = {
   // Popup signin flow rather than redirect flow.
   signInFlow: 'popup',
   // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
-  // signInSuccessUrl: '/signedIn',
+  signInSuccessUrl: '/',
   // We will display Google and Facebook as auth providers.
   signInOptions: [
     firebase.auth.EmailAuthProvider.PROVIDER_ID
-  ],
-  callbacks: {
-    // Avoid redirects after sign-in.
-    signInSuccessWithAuthResult: () => false,
-  },
+  ]
 };
 
 
@@ -37,9 +33,11 @@ function App() {
     value: '...',
     user: undefined
   });
-
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isBooted, setIsBooted] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const starCountRef = ref(database, 'data');
@@ -70,13 +68,42 @@ function App() {
   }
 
   function navigationItems() {
-    if (!auth.currentUser) {
+
+    const home = {
+      name: 'Home',
+      onClick: () => navigate('/')
+    };
+
+    const signIn = {
+      name: 'Sign In',
+      onClick: () => navigate('/signin')
+    };
+
+    const logout = {
+      name: 'Logout',
+      onClick: () => {
+        auth.signOut();
+        navigate('/');
+      }
+    }
+
+    if (!isBooted) {
       return [];
     }
-    return [{
-      name: 'Logout',
-      onClick: () => auth.signOut()
-    }];
+
+    if (!isSignedIn && location.pathname !== '/') {
+      return [home];
+    }
+
+    if (!isSignedIn && location.pathname !== '/signin') {
+      return [signIn];
+    }
+
+    if (isSignedIn && location.pathname !== '/') {
+      return [home, logout];
+    }
+
+    return [logout];
   }
 
   return (
@@ -85,26 +112,19 @@ function App() {
         <TopNavigation items={navigationItems()} />
       </header>
       <main className='flex flex-col items-center h-screen mt-8'>
-        {isBooted && !isSignedIn &&
-          <div className='justify-center mb-16'>
-            <div className="text-2xl font-bold text-center mb-16 text-white">
-              Register now to write something! (Please)
-            </div>
-            <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />
-          </div>
-        }
         <Routes>
           <Route path="/" element={<Content value={data.value} user={data.user} />} />
-          <Route path="/geheime_route/:wie_viel_geheim_parameter_id" element={<Content />} />
+          <Route path="/signin" element={<StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />} />
+          <Route path="/geheime_route/:wie_viel_geheim_parameter_id" element={<Content value={''} />} />
         </Routes>
-        {isBooted && isSignedIn &&
+        {isBooted && isSignedIn && location.pathname === '/' &&
           <Input onInput={onInput} />
         }
       </main>
       <footer className="bg-slate-800">
-        <h1 className="p-8 hover:uppercase text-white text-center">
+        <div className="p-8 hover:uppercase text-white text-center">
           I bims 1 footer © sgreg0r - Nicht Design klauen!
-        </h1>
+        </div>
       </footer>
     </div >
   );

@@ -10,7 +10,7 @@ export function Content({ value, user }: { value?: string, user?: string }) {
         </div>
         {user &&
             <div>
-                {'' + user}
+                {'- ' + user}
             </div>
         }
     </div>
