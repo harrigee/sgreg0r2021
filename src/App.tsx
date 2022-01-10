@@ -1,4 +1,5 @@
 import './App.css';
+import 'firebase/compat/auth';
 import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import { Content } from './components/main/Content';
 import { Input } from './components/main/Input';
@@ -6,7 +7,6 @@ import { FormEvent, useEffect, useState } from 'react';
 import { firebaseConfig } from './secrets/firebaseConfig';
 import { getDatabase, onValue, ref, set } from "firebase/database";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import 'firebase/compat/auth';
 import firebase from 'firebase/compat/app';
 import { TopNavigation } from './components/navigation/TopNavigation';
 
@@ -114,7 +114,7 @@ function App() {
       <main className='flex flex-col items-center h-screen mt-8'>
         <Routes>
           <Route path="/" element={<Content value={data.value} user={data.user} />} />
-          <Route path="/signin" element={<StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />} />
+          <Route path="/signin" element={<StyledFirebaseAuth className='w-full' uiConfig={uiConfig} firebaseAuth={auth} />} />
           <Route path="/geheime_route/:wie_viel_geheim_parameter_id" element={<Content />} />
         </Routes>
         {isBooted && isSignedIn && location.pathname === '/' &&
