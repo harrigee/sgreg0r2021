@@ -44,7 +44,7 @@ function App() {
   return (
     <div className="App flex flex-col h-screen">
       <header className="bg-slate-800">
-        <TopNavigation items={routes} />
+        {/*<TopNavigation items={routes} />*/}
       </header>
       <main className='flex flex-col items-center h-screen'>
         <Routes>
