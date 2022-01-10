@@ -115,7 +115,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Content value={data.value} user={data.user} />} />
           <Route path="/signin" element={<StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />} />
-          <Route path="/geheime_route/:wie_viel_geheim_parameter_id" element={<Content value={''} />} />
+          <Route path="/geheime_route/:wie_viel_geheim_parameter_id" element={<Content />} />
         </Routes>
         {isBooted && isSignedIn && location.pathname === '/' &&
           <Input onInput={onInput} />
