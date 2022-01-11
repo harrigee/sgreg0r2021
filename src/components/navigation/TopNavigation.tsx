@@ -4,13 +4,13 @@ export interface ITopNavigationItem {
 }
 
 export function TopNavigation({ items }: { items: ITopNavigationItem[] }) {
-    return <nav className="flex p-8">
+    return <div className="flex">
         {items.map((item, i) => <button
             onClick={item.onClick}
             key={item.name + i}
-            className=" bg-sky-500 text-white hover:bg-pink-600 active:blur py-2 px-4 mx-2 rounded-full">
+            className=" bg-sky-500 text-white hover:bg-pink-600 py-2 px-4 m-4 rounded-md">
             {item.name}
         </button>
         )}
-    </nav>;
+    </div>;
 }

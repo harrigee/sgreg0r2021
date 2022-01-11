@@ -5,10 +5,11 @@ import { Content } from './components/main/Content';
 import { Input } from './components/main/Input';
 import { FormEvent, useEffect, useState } from 'react';
 import { firebaseConfig } from './secrets/firebaseConfig';
-import { getDatabase, onValue, ref, set } from "firebase/database";
+import { getDatabase, onDisconnect, onValue, ref, set } from "firebase/database";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase/compat/app';
 import { TopNavigation } from './components/navigation/TopNavigation';
+import { SideBar } from './components/navigation/SideBar';
 
 const app = firebase.initializeApp(firebaseConfig);
 const database = getDatabase(app);
@@ -26,13 +27,13 @@ const uiConfig = {
   ]
 };
 
-
 function App() {
 
   const [data, setData] = useState({
     value: '...',
     user: undefined
   });
+  const [users, setUsers] = useState<{ [key: string]: { displayName: string, isOnline: boolean } }>({});
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isBooted, setIsBooted] = useState(false);
 
@@ -40,8 +41,10 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
-    const starCountRef = ref(database, 'data');
-    onValue(starCountRef, (snapshot) => {
+
+    const dataRef = ref(database, 'data');
+
+    onValue(dataRef, (snapshot) => {
       const data = snapshot.val();
       setData({
         value: data.value,
@@ -49,9 +52,18 @@ function App() {
       });
     });
 
+    const usersRef = ref(database, 'users');
+
+    onValue(usersRef, (snapshot) => {
+      const users = snapshot.val();
+      setUsers(users);
+    });
+
     const unregisterAuthObserver = auth.onAuthStateChanged(user => {
-      setIsSignedIn(!!user);
+      setIsSignedIn(user != null);
       setIsBooted(true);
+      onOnline();
+      onOffline();
     });
 
     return () => unregisterAuthObserver();
@@ -59,12 +71,32 @@ function App() {
   }, []);
 
   function onInput(event: FormEvent<HTMLInputElement>) {
-    set(ref(database), {
-      data: {
-        value: event.currentTarget.value,
-        user: firebase.auth().currentUser?.displayName
-      }
+    set(ref(database, 'data'), {
+      value: event.currentTarget.value,
+      user: firebase.auth().currentUser?.displayName
     });
+  }
+
+  function onOnline() {
+    const user = firebase.auth().currentUser;
+    if (!user) {
+      return;
+    }
+    set(ref(database, 'users/' + user.uid), {
+      displayName: user.displayName,
+      isOnline: true
+    });
+  }
+
+  function onOffline() {
+    const user = firebase.auth().currentUser;
+    if (!user) {
+      return;
+    }
+    const userRef = ref(database, 'users/' + user.uid);
+    onDisconnect(userRef).update({
+      isOnline: false
+    })
   }
 
   function navigationItems() {
@@ -111,10 +143,11 @@ function App() {
       <header className="bg-slate-800">
         <TopNavigation items={navigationItems()} />
       </header>
-      <main className='flex flex-col items-center h-screen mt-8'>
+      <main className='flex flex-col items-center h-screen'>
+        <SideBar items={Object.values(users)} />
         <Routes>
           <Route path="/" element={<Content value={data.value} user={data.user} />} />
-          <Route path="/signin" element={<StyledFirebaseAuth className='w-full' uiConfig={uiConfig} firebaseAuth={auth} />} />
+          <Route path="/signin" element={<StyledFirebaseAuth className='w-full mt-16' uiConfig={uiConfig} firebaseAuth={auth} />} />
           <Route path="/geheime_route/:wie_viel_geheim_parameter_id" element={<Content />} />
         </Routes>
         {isBooted && isSignedIn && location.pathname === '/' &&
