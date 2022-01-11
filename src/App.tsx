@@ -144,7 +144,9 @@ function App() {
         <TopNavigation items={navigationItems()} />
       </header>
       <main className='flex flex-col items-center h-screen'>
-        <SideBar items={Object.values(users)} />
+        {isBooted && isSignedIn &&
+          <SideBar items={Object.values(users)} />
+        }
         <Routes>
           <Route path="/" element={<Content value={data.value} user={data.user} />} />
           <Route path="/signin" element={<StyledFirebaseAuth className='w-full mt-16' uiConfig={uiConfig} firebaseAuth={auth} />} />
