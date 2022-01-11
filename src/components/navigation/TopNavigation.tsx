@@ -4,7 +4,7 @@ export interface ITopNavigationItem {
 }
 
 export function TopNavigation({ items }: { items: ITopNavigationItem[] }) {
-    return <div className="flex">
+    return <div className="flex justify-end">
         {items.map((item, i) => <button
             onClick={item.onClick}
             key={item.name + i}
