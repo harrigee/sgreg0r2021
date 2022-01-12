@@ -5,7 +5,7 @@ import { Content } from './components/main/Content';
 import { Input } from './components/main/Input';
 import { FormEvent, useEffect, useState } from 'react';
 import { firebaseConfig } from './secrets/firebaseConfig';
-import { getDatabase, onDisconnect, onValue, ref, set } from "firebase/database";
+import { getDatabase, onDisconnect, onValue, ref, runTransaction, set, update } from "firebase/database";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase/compat/app';
 import { TopNavigation } from './components/navigation/TopNavigation';
@@ -34,7 +34,7 @@ function App() {
     value: '...',
     user: undefined
   });
-  const [users, setUsers] = useState<{ [key: string]: { uid: string, displayName: string, isOnline: boolean } }>({});
+  const [users, setUsers] = useState<{ [key: string]: { uid: string, displayName: string, isOnline: boolean, charCount: number } }>({});
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isBooted, setIsBooted] = useState(false);
 
@@ -72,6 +72,26 @@ function App() {
   }, []);
 
   function onInput(event: FormEvent<HTMLInputElement>) {
+
+    const user = firebase.auth().currentUser;
+
+    if (!user) {
+      return;
+    }
+
+    const userRef = ref(database, 'users/' + user.uid);
+
+    runTransaction(userRef, (user) => {
+      if (user) {
+        if (user.charCount) {
+          user.charCount++;
+        } else {
+          user.charCount = 1;
+        }
+      }
+      return user;
+    });
+
     set(ref(database, 'data'), {
       value: event.currentTarget.value,
       user: firebase.auth().currentUser?.displayName
@@ -83,7 +103,7 @@ function App() {
     if (!user) {
       return;
     }
-    set(ref(database, 'users/' + user.uid), {
+    update(ref(database, 'users/' + user.uid), {
       uid: user.uid,
       displayName: user.displayName,
       isOnline: true
@@ -142,11 +162,11 @@ function App() {
 
   function userItems() {
     const userItems = Object.values(users);
-    userItems.sort((item) => {
-      if (item.isOnline) {
-        return -1;
+    userItems.sort((item1, item2) => {
+      if (!item1.charCount) {
+        return 1;
       }
-      return 1;
+      return item2.charCount - item1.charCount;
     });
     return userItems;
   }
