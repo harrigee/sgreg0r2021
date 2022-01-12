@@ -33,7 +33,7 @@ function App() {
     value: '...',
     user: undefined
   });
-  const [users, setUsers] = useState<{ [key: string]: { displayName: string, isOnline: boolean } }>({});
+  const [users, setUsers] = useState<{ [key: string]: { uid: string, displayName: string, isOnline: boolean } }>({});
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isBooted, setIsBooted] = useState(false);
 
@@ -83,6 +83,7 @@ function App() {
       return;
     }
     set(ref(database, 'users/' + user.uid), {
+      uid: user.uid,
       displayName: user.displayName,
       isOnline: true
     });
@@ -138,25 +139,40 @@ function App() {
     return [logout];
   }
 
+  function userItems() {
+    const userItems = Object.values(users);
+    userItems.sort((item) => {
+      if (item.isOnline) {
+        return -1;
+      }
+      return 1;
+    });
+    return userItems;
+  }
+
   return (
-    <div className="App flex flex-col h-screen">
+    <div className="App flex flex-col min-h-screen">
       <header className="bg-slate-800">
         <TopNavigation items={navigationItems()} />
       </header>
-      <main className='flex flex-col items-center h-screen'>
+      <main className='flex flex-row grow'>
         {isBooted && isSignedIn &&
-          <SideBar items={Object.values(users)} />
+          <div className="flex">
+            <SideBar items={userItems()} />
+          </div>
         }
-        <Routes>
-          <Route path="/" element={<Content value={data.value} user={data.user} />} />
-          <Route path="/signin" element={<StyledFirebaseAuth className='w-full mt-16' uiConfig={uiConfig} firebaseAuth={auth} />} />
-          <Route path="/geheime_route/:wie_viel_geheim_parameter_id" element={<Content />} />
-        </Routes>
-        {isBooted && isSignedIn && location.pathname === '/' &&
-          <Input onInput={onInput} />
-        }
+        <div className="flex flex-col grow">
+          <Routes>
+            <Route path="/" element={<Content value={data.value} user={data.user} />} />
+            <Route path="/signin" element={<StyledFirebaseAuth className='w-full mt-16' uiConfig={uiConfig} firebaseAuth={auth} />} />
+            <Route path="/geheime_route/:wie_viel_geheim_parameter_id" element={<Content />} />
+          </Routes>
+          {isBooted && isSignedIn && location.pathname === '/' &&
+            <Input onInput={onInput} />
+          }
+        </div>
       </main>
-      <footer className="bg-slate-800">
+      <footer className="w-full bottom-0 bg-slate-800">
         <div className="p-8 hover:uppercase text-white text-center">
           I bims 1 footer © sgreg0r - Nicht Design klauen!
         </div>

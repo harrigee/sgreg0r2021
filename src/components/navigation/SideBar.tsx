@@ -1,16 +1,22 @@
-export function SideBar({ items }: { items: { displayName: string, isOnline: boolean }[] }) {
-    return <div className="absolute flex flex-col left-0 pt-8 pb-8 px-8 bg-slate-800">
+export function SideBar({ items }: { items: { uid: string, displayName: string, isOnline: boolean }[] }) {
+    return <div className="w-64 p-4 bg-slate-700">
         {items.map((item, i) =>
             <div
-                className="flex flex-row place-items-center p-2"
+                className="flex items-center content-center p-2 m-2"
                 key={item.displayName + i}>
-                {item.isOnline && <div className="h-2 w-2 rounded-full bg-green-400" />}
-                {!item.isOnline && <div className="h-2 w-2 rounded-full bg-pink-400" />}
-                <button
-                    onClick={() => false}
-                    className="text-white rounded-md ml-2">
+                <div className="flex items-end">
+                    <img
+                        className="m-1"
+                        width={40}
+                        height={40}
+                        alt="avatar"
+                        src={`https://avatars.dicebear.com/api/human/${item.uid}.svg`} />
+                    {item.isOnline && <div className="absolute place-self-end min-w-[12px] min-h-[12px] rounded-full bg-green-400" />}
+                    {!item.isOnline && <div className="absolute place-self-end min-w-[12px] min-h-[12px] rounded-full bg-pink-400" />}
+                </div>
+                <p className="text-white ml-4">
                     {item.displayName}
-                </button>
+                </p>
             </div>
         )}
     </div>;

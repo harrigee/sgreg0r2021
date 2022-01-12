@@ -4,7 +4,7 @@ export function Content({ value, user }: { value?: string, user?: string }) {
 
     const { wie_viel_geheim_parameter_id } = useParams();
 
-    return <div className="self-center m-10 bg-pink-600 text-white rounded-2xl mx-20 px-12 py-8 shadow-xl">
+    return <div className="bg-pink-600 text-white self-center max-w-[50%] min-w-[300px] rounded-2xl px-12 py-8 m-8 shadow-xl">
         {value &&
             <div className="text-4xl font-bold text-center">
                 {value}
