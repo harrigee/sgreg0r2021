@@ -166,7 +166,10 @@ function App() {
       if (!item1.charCount) {
         return 1;
       }
-      return item2.charCount - item1.charCount;
+      if (item1.charCount <= item2.charCount) {
+        return 1;
+      }
+      return -1;
     });
     return userItems;
   }
