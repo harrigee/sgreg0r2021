@@ -151,32 +151,34 @@ function App() {
   }
 
   return (
-    <div className="App flex flex-col min-h-screen">
-      <header className="bg-slate-800">
-        <TopNavigation items={navigationItems()} />
-      </header>
-      <main className='flex flex-row grow'>
-        {isBooted && isSignedIn &&
-          <div className="flex">
-            <SideBar items={userItems()} />
+    <div className="App flex flex-row min-h-screen">
+      {isBooted && isSignedIn &&
+        <div className="flex max-h-screen">
+          <SideBar items={userItems()} />
+        </div>
+      }
+      <div className="flex flex-col w-full">
+        <header className="bg-slate-800">
+          <TopNavigation items={navigationItems()} />
+        </header>
+        <main className='flex flex-row grow'>
+          <div className="flex flex-col grow">
+            <Routes>
+              <Route path="/" element={<Content value={data.value} user={data.user} />} />
+              <Route path="/signin" element={<StyledFirebaseAuth className='w-full mt-16' uiConfig={uiConfig} firebaseAuth={auth} />} />
+              <Route path="/geheime_route/:wie_viel_geheim_parameter_id" element={<Content />} />
+            </Routes>
+            {isBooted && isSignedIn && location.pathname === '/' &&
+              <Input onInput={onInput} />
+            }
           </div>
-        }
-        <div className="flex flex-col grow">
-          <Routes>
-            <Route path="/" element={<Content value={data.value} user={data.user} />} />
-            <Route path="/signin" element={<StyledFirebaseAuth className='w-full mt-16' uiConfig={uiConfig} firebaseAuth={auth} />} />
-            <Route path="/geheime_route/:wie_viel_geheim_parameter_id" element={<Content />} />
-          </Routes>
-          {isBooted && isSignedIn && location.pathname === '/' &&
-            <Input onInput={onInput} />
-          }
-        </div>
-      </main>
-      <footer className="w-full bottom-0 bg-slate-800">
-        <div className="p-8 text-white text-center">
-          I bims 1 footer © sgreg0r 2022
-        </div>
-      </footer>
+        </main>
+        <footer className="w-full bottom-0 bg-slate-800">
+          <div className="p-8 text-white text-center">
+            I bims 1 footer © sgreg0r 2022
+          </div>
+        </footer>
+      </div>
     </div >
   );
 }
