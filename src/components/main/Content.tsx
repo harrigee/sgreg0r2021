@@ -4,14 +4,14 @@ export function Content({ value, user }: { value?: string, user?: string }) {
 
   const { wie_viel_geheim_parameter_id } = useParams();
 
-  return <div className="text-white self-center max-w-[50%] m-32 hover:opacity-80" >
+  return <div className="text-white self-center max-w-[50%] my-32 hover:opacity-80" >
     {value &&
-      <div className="text-6xl font-bold text-left">
+      <div className="sm:text-4xl md:text-5xl lg:text-7xl font-bold text-left">
         {value}
       </div>
     }
     {wie_viel_geheim_parameter_id &&
-      <div className="text-6xl font-bold text-center">
+      <div className="sm:text-2xl md:text-4xl lg:text-6xlfont-bold text-center">
         {wie_viel_geheim_parameter_id}
       </div>
     }

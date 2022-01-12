@@ -151,7 +151,7 @@ function App() {
   }
 
   return (
-    <div className="App flex flex-row min-h-screen bg-cover bg-[url('https://source.unsplash.com/1920x1080/?black')]">
+    <div className="App flex flex-row min-h-screen bg-black bg-cover bg-[url('https://source.unsplash.com/1920x1080/?black')]">
       {isBooted && isSignedIn &&
         <div className="flex max-h-screen">
           <SideBar items={userItems()} />
@@ -175,7 +175,7 @@ function App() {
         </main>
         <footer className="w-full bottom-0 bg-zinc-900">
           <div className="p-8 text-white text-center">
-            I bims 1 footer © sgreg0r 2022
+            © sgreg0r 2022
           </div>
         </footer>
       </div>
