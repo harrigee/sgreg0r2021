@@ -177,7 +177,7 @@ function App() {
   return (
     <div className="App flex flex-row min-h-screen bg-black bg-cover bg-[url('https://images.unsplash.com/photo-1533134486753-c833f0ed4866?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80')]">
       {isBooted && isSignedIn &&
-        <div className="flex h-site grow">
+        <div className="flex sticky top-0 h-screen">
           <SideBar items={userItems()} />
         </div>
       }
