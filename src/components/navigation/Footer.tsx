@@ -34,7 +34,7 @@ export function Footer() {
         </a>
       </div>
     </div>
-    <div className="flex text-white mb-4">
+    <div className="flex text-sm text-white mb-6">
       Stefan Gregor 2022
     </div>
   </div>;
