@@ -151,14 +151,14 @@ function App() {
   }
 
   return (
-    <div className="App flex flex-row min-h-screen">
+    <div className="App flex flex-row min-h-screen bg-cover bg-[url('https://source.unsplash.com/1920x1080/?black')]">
       {isBooted && isSignedIn &&
         <div className="flex max-h-screen">
           <SideBar items={userItems()} />
         </div>
       }
       <div className="flex flex-col w-full">
-        <header className="bg-slate-800">
+        <header className="bg-zinc-900">
           <TopNavigation items={navigationItems()} />
         </header>
         <main className='flex flex-row grow'>
@@ -173,13 +173,13 @@ function App() {
             }
           </div>
         </main>
-        <footer className="w-full bottom-0 bg-slate-800">
+        <footer className="w-full bottom-0 bg-zinc-900">
           <div className="p-8 text-white text-center">
             I bims 1 footer © sgreg0r 2022
           </div>
         </footer>
       </div>
-    </div >
+    </div>
   );
 }
 
