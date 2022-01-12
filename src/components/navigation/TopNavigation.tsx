@@ -8,7 +8,7 @@ export function TopNavigation({ items }: { items: ITopNavigationItem[] }) {
     {items.map((item, i) => <button
       onClick={item.onClick}
       key={item.name + i}
-      className=" bg-sky-500 text-white hover:bg-pink-600 py-2 px-4 m-4 rounded-md">
+      className=" bg-sky-500 text-white hover:bg-pink-500 py-2 px-4 m-4 rounded-md">
       {item.name}
     </button>
     )}

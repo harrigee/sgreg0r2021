@@ -10,7 +10,7 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase/compat/app';
 import { TopNavigation } from './components/navigation/TopNavigation';
 import { SideBar } from './components/navigation/SideBar';
-import { BsGithub, BsLinkedin, BsTwitch, BsInstagram, BsMailbox2 } from 'react-icons/bs';
+import { Footer } from './components/navigation/Footer';
 
 const app = firebase.initializeApp(firebaseConfig);
 const database = getDatabase(app);
@@ -152,7 +152,7 @@ function App() {
   }
 
   return (
-    <div className="App flex flex-row min-h-screen bg-black bg-cover bg-[url('https://source.unsplash.com/1920x1080/?black')]">
+    <div className="App flex flex-row min-h-screen bg-black bg-cover bg-[url('https://images.unsplash.com/photo-1533134486753-c833f0ed4866?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80')]">
       {isBooted && isSignedIn &&
         <div className="flex max-h-screen">
           <SideBar items={userItems()} />
@@ -175,38 +175,7 @@ function App() {
           </div>
         </main>
         <footer className="w-full bottom-0 bg-zinc-900">
-          <div className="flex flex-col place-items-center">
-            <div className=" text-white text-center flex flex-row mt-8 mb-4">
-              <div className='mr-2'>
-                <a target="_blank" rel="noopener noreferrer" href='https://github.com/harrigee'>
-                  <BsGithub size={32} />
-                </a>
-              </div>
-              <div className='mx-2'>
-                <a target="_blank" rel="noopener noreferrer" href='https://www.linkedin.com/in/stefan-gregor/'>
-                  <BsLinkedin size={32} />
-                </a>
-              </div>
-              <div className='mx-2'>
-                <a target="_blank" rel="noopener noreferrer" href='https://www.twitch.tv/sgreg0r'>
-                  <BsTwitch size={32} />
-                </a>
-              </div>
-              <div className='mx-2'>
-                <a target="_blank" rel="noopener noreferrer" href='http://instagram.com/sgreg0r/'>
-                  <BsInstagram size={32} />
-                </a>
-              </div>
-              <div className='mx-2'>
-                <a target="_blank" rel="noopener noreferrer" href='mailto:rogfan@icloud.com'>
-                  <BsMailbox2 size={32} />
-                </a>
-              </div>
-            </div>
-            <div className="flex text-white mb-4">
-              Stefan Gregor 2022
-            </div>
-          </div>
+          <Footer />
         </footer>
       </div>
     </div>

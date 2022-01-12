@@ -3,6 +3,11 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
+    extend: {
+      transitionProperty: {
+        'width': 'width'
+      },
+    },
     screens: {
       'mobile': '200px',
       'sm': '640px',
