@@ -1,5 +1,5 @@
 export function SideBar({ items }: { items: { uid: string, displayName: string, isOnline: boolean, charCount: number }[] }) {
-  return <div className="w-8 bg-green-400 scrollbar-hide transition-all ease-in-out duration-500 hover:w-80 hover:bg-zinc-800 pt-16 overflow-y-scroll overflow-x-hidden">
+  return <div className="w-8 bg-green-400 shadow-2xl inner scrollbar-hide transition-all ease-in-out duration-500 hover:w-80 hover:bg-zinc-800 pt-16 overflow-y-scroll overflow-x-hidden">
     <div>
       {items.map((item, i) =>
         <div
