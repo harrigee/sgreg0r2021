@@ -10,6 +10,7 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase/compat/app';
 import { TopNavigation } from './components/navigation/TopNavigation';
 import { SideBar } from './components/navigation/SideBar';
+import { BsGithub, BsLinkedin, BsTwitch, BsInstagram, BsMailbox2 } from 'react-icons/bs';
 
 const app = firebase.initializeApp(firebaseConfig);
 const database = getDatabase(app);
@@ -174,8 +175,37 @@ function App() {
           </div>
         </main>
         <footer className="w-full bottom-0 bg-zinc-900">
-          <div className="p-8 text-white text-center">
-            © sgreg0r 2022
+          <div className="flex flex-col place-items-center">
+            <div className=" text-white text-center flex flex-row mt-8 mb-4">
+              <div className='mr-2'>
+                <a target="_blank" rel="noopener noreferrer" href='https://github.com/harrigee'>
+                  <BsGithub size={32} />
+                </a>
+              </div>
+              <div className='mx-2'>
+                <a target="_blank" rel="noopener noreferrer" href='https://www.linkedin.com/in/stefan-gregor/'>
+                  <BsLinkedin size={32} />
+                </a>
+              </div>
+              <div className='mx-2'>
+                <a target="_blank" rel="noopener noreferrer" href='https://www.twitch.tv/sgreg0r'>
+                  <BsTwitch size={32} />
+                </a>
+              </div>
+              <div className='mx-2'>
+                <a target="_blank" rel="noopener noreferrer" href='http://instagram.com/sgreg0r/'>
+                  <BsInstagram size={32} />
+                </a>
+              </div>
+              <div className='mx-2'>
+                <a target="_blank" rel="noopener noreferrer" href='mailto:rogfan@icloud.com'>
+                  <BsMailbox2 size={32} />
+                </a>
+              </div>
+            </div>
+            <div className="flex text-white mb-4">
+              Stefan Gregor 2022
+            </div>
           </div>
         </footer>
       </div>

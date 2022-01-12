@@ -14,6 +14,7 @@ specifiers:
   react: ^17.0.2
   react-dom: ^17.0.2
   react-firebaseui: ^6.0.0
+  react-icons: ^4.3.1
   react-router-dom: '6'
   react-scripts: 5.0.0
   tailwindcss: ^3.0.7
@@ -32,6 +33,7 @@ dependencies:
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
   react-firebaseui: 6.0.0_firebase@9.6.1+react@17.0.2
+  react-icons: 4.3.1_react@17.0.2
   react-router-dom: 6.2.1_react-dom@17.0.2+react@17.0.2
   react-scripts: 5.0.0_a44114f21722496cd648c49736638060
   typescript: 4.5.4
@@ -8182,6 +8184,14 @@ packages:
     dependencies:
       firebase: 9.6.1
       firebaseui: 6.0.0_firebase@9.6.1
+      react: 17.0.2
+    dev: false
+
+  /react-icons/4.3.1_react@17.0.2:
+    resolution: {integrity: sha512-cB10MXLTs3gVuXimblAdI71jrJx8njrJZmNMEMC+sQu5B/BIOmlsAjskdqpn81y8UBVEGuHODd7/ci5DvoSzTQ==}
+    peerDependencies:
+      react: '*'
+    dependencies:
       react: 17.0.2
     dev: false
 
