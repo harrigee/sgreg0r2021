@@ -13,15 +13,15 @@ export function SideBar({ items }: { items: { uid: string, displayName: string, 
               src={`https://avatars.dicebear.com/api/avataaars/${item.uid}.svg`} />
           </div>
           <div className="flex flex-col self-center grow">
-            <p className="text-white text-base text-left ml-4">
+            <p className="text-white text-m text-left ml-4">
               {item.displayName}
             </p>
             <div className="flex flex-row">
-              <p className="text-white text-3xl font-bold text-left ml-4">
+              <p className="text-white text-3xl font-bold text-left self-end ml-4">
                 {item.charCount ?? 0}
               </p>
               <p className="text-white text-xs ml-1 self-end">
-                {'actions'}
+                {'pt'}
               </p>
             </div>
           </div>
