@@ -1,16 +1,16 @@
 export interface ITopNavigationItem {
-    name: string;
-    onClick: () => void;
+  name: string;
+  onClick: () => void;
 }
 
 export function TopNavigation({ items }: { items: ITopNavigationItem[] }) {
-    return <div className="flex justify-end">
-        {items.map((item, i) => <button
-            onClick={item.onClick}
-            key={item.name + i}
-            className=" bg-sky-500 text-white hover:bg-pink-600 py-2 px-4 m-4 rounded-md">
-            {item.name}
-        </button>
-        )}
-    </div>;
+  return <div className="flex justify-end">
+    {items.map((item, i) => <button
+      onClick={item.onClick}
+      key={item.name + i}
+      className=" bg-sky-500 text-white hover:bg-pink-600 py-2 px-4 m-4 rounded-md">
+      {item.name}
+    </button>
+    )}
+  </div>;
 }
