@@ -6,12 +6,12 @@ export function Content({ value, user }: { value?: string, user?: string }) {
 
   return <div className="text-white self-center max-w-[50%] my-32 hover:opacity-80" >
     {value &&
-      <div className="sm:text-4xl md:text-5xl lg:text-7xl font-bold text-left">
+      <div className="mobile:text-2xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-left">
         {value}
       </div>
     }
     {wie_viel_geheim_parameter_id &&
-      <div className="sm:text-2xl md:text-4xl lg:text-6xlfont-bold text-center">
+      <div className="mobile:text-2xl sm:text-5xl md:text-6xl lg:text-7xl leading-relaxed font-bold text-center">
         {wie_viel_geheim_parameter_id}
       </div>
     }
