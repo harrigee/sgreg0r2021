@@ -184,6 +184,7 @@ function App() {
       <div className="flex flex-col w-full">
         <header className="bg-zinc-900">
           <TopNavigation items={navigationItems()} />
+          <title>sgreg0r"</title>
         </header>
         <main className='flex flex-row grow'>
           <div className="flex flex-col grow">
