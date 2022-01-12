@@ -173,8 +173,8 @@ function App() {
         </div>
       </main>
       <footer className="w-full bottom-0 bg-slate-800">
-        <div className="p-8 hover:uppercase text-white text-center">
-          I bims 1 footer © sgreg0r - Nicht Design klauen!
+        <div className="p-8 text-white text-center">
+          I bims 1 footer © sgreg0r 2022
         </div>
       </footer>
     </div >
