@@ -4,6 +4,6 @@ export function Input({ onInput, value }: { onInput: (event: FormEvent<HTMLInput
   return <input
     value={value}
     onInput={onInput}
-    className=" bg-zinc-900 border-4 focus:border-sky-500 rounded-full py-4 px-6 w-1/2 min-w-[200px] max-w-[600px] self-center text-white font-bold placeholder-zinc-500 mb-16"
+    className=" bg-zinc-900 border-4 focus:border-sky-500 rounded-full py-4 px-6 mt-32 mb-16 w-1/2 min-w-[200px] max-w-[600px] self-center text-white font-bold placeholder-zinc-500"
     placeholder="Just type something already... Sheeesh." />;
 }

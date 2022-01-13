@@ -192,8 +192,8 @@ function App() {
             </div>
           }
         </header>
-        <main className='flex flex-row grow'>
-          <div className="flex flex-col grow">
+        <main className='flex flex-row grow justify-center'>
+          <div className="flex flex-col justify-center w-full">
             <Routes>
               <Route path="/" element={<Content value={data.value} user={data.user} />} />
               <Route path="/signin" element={<StyledFirebaseAuth className='w-full mt-16' uiConfig={uiConfig} firebaseAuth={auth} />} />
