@@ -60,7 +60,7 @@ export function Ranking({ items, type }: { items: { uid: string, displayName: st
             {item.displayName}
           </p>
           <div className="flex flex-row">
-            <p className={`text-white ${i === 0 ? 'text-3xl' : i === 1 ? 'text-2xl' : 'text-xl'} text-3xl font-bold text-left self-end ml-4`}>
+            <p className={`text-white ${i === 0 ? 'text-3xl' : i === 1 ? 'text-2xl' : 'text-xl'} font-bold text-left self-end ml-4`}>
               {item.charCount ?? 0}
             </p>
             <p className="text-white text-xs ml-1 self-end">
