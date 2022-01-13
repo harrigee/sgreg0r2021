@@ -15,8 +15,8 @@ export function Ranking({ items, type }: { items: { uid: string, displayName: st
               </div>
             }
             <img
-              width={i === 0 ? 32 : 24}
-              height={i === 0 ? 32 : 24}
+              width={i === 0 ? 32 : 16}
+              height={i === 0 ? 32 : 16}
               alt="avatar"
               src={`https://avatars.dicebear.com/api/avataaars/${item.uid}.svg`} />
           </div>
