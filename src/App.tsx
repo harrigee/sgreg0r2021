@@ -10,7 +10,7 @@ import { getDatabase, onDisconnect, onValue, ref, runTransaction, set, update } 
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase/compat/app';
 import { TopNavigation } from './components/navigation/TopNavigation';
-import { Ranking } from './components/navigation/Ranking';
+import { Ranking } from './components/main/Ranking';
 import { Footer } from './components/navigation/Footer';
 
 const app = firebase.initializeApp(firebaseConfig);
@@ -197,6 +197,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Content value={data.value} user={data.user} />} />
               <Route path="/signin" element={<StyledFirebaseAuth className='w-full mt-16' uiConfig={uiConfig} firebaseAuth={auth} />} />
+              <Route path="/*" element={<Content value={'No no no no 🙃'} user={location.pathname} />} />
             </Routes>
             {isBooted && isSignedIn && location.pathname === '/' &&
               <Input onInput={onInput} />

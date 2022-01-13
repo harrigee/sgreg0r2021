@@ -6,17 +6,17 @@ export function Ranking({ items, type }: { items: { uid: string, displayName: st
     return <div className="flex flex-row min-w-screen shadow-2xl scrollbar-hide bg-zinc-800 overflow-x-scroll">
       {items.map((item, i) =>
         <div
-          className="flex flex-shrink-0 mx-4 my-4 items-center content-center hover:animate-pulse"
+          className="flex flex-shrink-0 w-36 mx-4 my-4 items-center content-center hover:animate-pulse"
           key={item.displayName + i}>
-          <div className={`relative p-3 justify-center rounded-full bg-zinc-600 border-4 ${item.isOnline ? 'border-green-400' : 'border-pink-500'}`}>
+          <div className={`flex-shrink-0 relative p-2 justify-center rounded-full bg-zinc-600 border-4 ${item.isOnline ? 'border-green-400' : 'border-pink-500'}`}>
             {i === 0 &&
-              <div className="absolute -translate-y-4 translate-x-2 rotate-12">
-                <FaCrown size={24} color='yellow' />
+              <div className="absolute -translate-y-3 translate-x-2 rotate-12">
+                <FaCrown size={16} color='yellow' />
               </div>
             }
             <img
-              width={i === 0 ? 32 : 16}
-              height={i === 0 ? 32 : 16}
+              width={i === 0 ? 32 : i === 1 ? 24 : 16}
+              height={i === 0 ? 32 : i === 1 ? 24 : 16}
               alt="avatar"
               src={`https://avatars.dicebear.com/api/avataaars/${item.uid}.svg`} />
           </div>
