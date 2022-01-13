@@ -1,5 +1,6 @@
 import './App.css';
 import 'firebase/compat/auth';
+import 'firebase/compat/analytics';
 import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import { Content } from './components/main/Content';
 import { Input } from './components/main/Input';
@@ -15,6 +16,7 @@ import { Footer } from './components/navigation/Footer';
 const app = firebase.initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = firebase.auth();
+const tracker = firebase.analytics(app);
 
 // Configure FirebaseUI.
 const uiConfig = {
@@ -202,7 +204,7 @@ function App() {
           </div>
         </main>
         <footer className="w-full bottom-0 bg-zinc-900">
-          <Footer />
+          <Footer tracker={tracker} />
         </footer>
       </div>
     </div>
