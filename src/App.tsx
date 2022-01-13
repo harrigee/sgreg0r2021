@@ -187,8 +187,9 @@ function App() {
         <header className="bg-zinc-900">
           <TopNavigation items={navigationItems()} />
           {isBooted && isSignedIn &&
-            <div className="flex sm:hidden">
+            <div className="flex flex-col sm:hidden">
               <Ranking type={'horizontal'} items={userItems()} />
+              <div className="h-1 w-full bg-zinc-900" />
             </div>
           }
         </header>
