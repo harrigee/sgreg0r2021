@@ -6,7 +6,7 @@ export function Ranking({ items, type }: { items: { uid: string, displayName: st
     return <div className="flex flex-row min-w-screen shadow-2xl scrollbar-hide bg-zinc-800 overflow-x-scroll">
       {items.map((item, i) =>
         <div
-          className="flex flex-shrink-0 w-36 mx-4 my-4 items-center content-center hover:animate-pulse"
+          className="flex flex-shrink-0 w-48 mx-4 my-4 items-center content-center hover:animate-pulse"
           key={item.displayName + i}>
           <div className={`flex-shrink-0 relative p-1 justify-center rounded-full bg-zinc-600 border-4 ${item.isOnline ? 'border-green-400' : 'border-pink-500'}`}>
             {i === 0 &&
@@ -22,7 +22,7 @@ export function Ranking({ items, type }: { items: { uid: string, displayName: st
           </div>
           <div className="flex flex-col self-center">
             <p className="text-white text-sm text-left ml-4">
-              {item.displayName}
+              {'#' + (i + 1) + ' ' + item.displayName}
             </p>
             <div className="flex flex-row">
               <p className="text-white text-xl font-bold text-left self-end ml-4">
@@ -56,6 +56,9 @@ export function Ranking({ items, type }: { items: { uid: string, displayName: st
             src={`https://avatars.dicebear.com/api/adventurer/${item.uid}.svg`} />
         </div>
         <div className="flex flex-col self-center grow">
+          <p className="text-white text-m text-left ml-4 font-bold">
+            {'#' + (i + 1)}
+          </p>
           <p className="text-white text-m text-left ml-4">
             {item.displayName}
           </p>
