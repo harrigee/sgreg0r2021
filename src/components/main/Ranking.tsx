@@ -56,11 +56,8 @@ export function Ranking({ items, type }: { items: { uid: string, displayName: st
             src={`https://avatars.dicebear.com/api/adventurer/${item.uid}.svg`} />
         </div>
         <div className="flex flex-col self-center grow">
-          <p className="text-white text-m text-left ml-4 font-bold">
-            {'#' + (i + 1)}
-          </p>
           <p className="text-white text-m text-left ml-4">
-            {item.displayName}
+            {'#' + (i + 1) + ' ' + item.displayName}
           </p>
           <div className="flex flex-row">
             <p className={`text-white ${i === 0 ? 'text-3xl' : i === 1 ? 'text-2xl' : 'text-xl'} font-bold text-left self-end ml-4`}>
