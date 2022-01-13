@@ -1,6 +1,6 @@
 import { FaCrown } from 'react-icons/fa';
 
-export function SideBar({ items, type }: { items: { uid: string, displayName: string, isOnline: boolean, charCount: number }[], type: 'horizontal' | 'vertical' }) {
+export function Ranking({ items, type }: { items: { uid: string, displayName: string, isOnline: boolean, charCount: number }[], type: 'horizontal' | 'vertical' }) {
 
   if (type === "horizontal") {
     return <div className="flex flex-row min-w-screen shadow-2xl scrollbar-hide bg-zinc-800 overflow-x-scroll">
@@ -15,8 +15,8 @@ export function SideBar({ items, type }: { items: { uid: string, displayName: st
               </div>
             }
             <img
-              width={32}
-              height={32}
+              width={i === 0 ? 32 : 24}
+              height={i === 0 ? 32 : 24}
               alt="avatar"
               src={`https://avatars.dicebear.com/api/avataaars/${item.uid}.svg`} />
           </div>
@@ -45,13 +45,13 @@ export function SideBar({ items, type }: { items: { uid: string, displayName: st
         key={item.displayName + i}>
         <div className={`relative p-2 rounded-full bg-zinc-600 border-4 ${item.isOnline ? 'border-green-400' : 'border-pink-500'}`}>
           {i === 0 &&
-            <div className="absolute -translate-y-5 translate-x-2 rotate-12">
-              <FaCrown size={32} color='yellow' />
+            <div className="absolute -translate-y-5 translate-x-5 rotate-12">
+              <FaCrown size={40} color='yellow' />
             </div>
           }
           <img
-            width={40}
-            height={40}
+            width={i === 0 ? 64 : i === 1 ? 48 : 24}
+            height={i === 0 ? 64 : i === 1 ? 48 : 24}
             alt="avatar"
             src={`https://avatars.dicebear.com/api/avataaars/${item.uid}.svg`} />
         </div>
@@ -60,7 +60,7 @@ export function SideBar({ items, type }: { items: { uid: string, displayName: st
             {item.displayName}
           </p>
           <div className="flex flex-row">
-            <p className="text-white text-3xl font-bold text-left self-end ml-4">
+            <p className={`text-white ${i === 0 ? 'text-3xl' : i === 1 ? 'text-2xl' : 'text-xl'} text-3xl font-bold text-left self-end ml-4`}>
               {item.charCount ?? 0}
             </p>
             <p className="text-white text-xs ml-1 self-end">
@@ -69,6 +69,7 @@ export function SideBar({ items, type }: { items: { uid: string, displayName: st
           </div>
         </div>
       </div>
-    )}
-  </div>;
+    )
+    }
+  </div >;
 }
