@@ -1,12 +1,19 @@
+import { FaCrown } from 'react-icons/fa';
+
 export function SideBar({ items, type }: { items: { uid: string, displayName: string, isOnline: boolean, charCount: number }[], type: 'horizontal' | 'vertical' }) {
 
   if (type === "horizontal") {
     return <div className="flex flex-row min-w-screen shadow-2xl scrollbar-hide bg-zinc-800 overflow-x-scroll">
       {items.map((item, i) =>
         <div
-          className="flex mx-6 my-4 items-center content-center hover:animate-pulse"
+          className="flex flex-shrink-0 mx-8 my-4 items-center content-center hover:animate-pulse"
           key={item.displayName + i}>
-          <div className={`flex flex-shrink-0 w-14 h-14 justify-center rounded-full bg-zinc-600 border-4 ${item.isOnline ? 'border-green-400' : 'border-pink-500'}`}>
+          <div className={`relative p-3 justify-center rounded-full bg-zinc-600 border-4 ${item.isOnline ? 'border-green-400' : 'border-pink-500'}`}>
+            {i === 0 &&
+              <div className="absolute -translate-y-4 translate-x-2 rotate-12">
+                <FaCrown size={24} color='yellow' />
+              </div>
+            }
             <img
               width={32}
               height={32}
@@ -28,7 +35,6 @@ export function SideBar({ items, type }: { items: { uid: string, displayName: st
           </div>
         </div>
       )}
-      <div className="h-128 w-128 bg-green-400" />
     </div>;
   }
 
@@ -37,7 +43,12 @@ export function SideBar({ items, type }: { items: { uid: string, displayName: st
       <div
         className="flex w-80 items-center content-center py-4 px-8 hover:animate-pulse"
         key={item.displayName + i}>
-        <div className={`flex p-2 rounded-full bg-zinc-600 border-4 ${item.isOnline ? 'border-green-400' : 'border-pink-500'}`}>
+        <div className={`relative p-2 rounded-full bg-zinc-600 border-4 ${item.isOnline ? 'border-green-400' : 'border-pink-500'}`}>
+          {i === 0 &&
+            <div className="absolute -translate-y-5 translate-x-2 rotate-12">
+              <FaCrown size={32} color='yellow' />
+            </div>
+          }
           <img
             width={40}
             height={40}
