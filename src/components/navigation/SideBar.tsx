@@ -6,7 +6,7 @@ export function SideBar({ items, type }: { items: { uid: string, displayName: st
     return <div className="flex flex-row min-w-screen shadow-2xl scrollbar-hide bg-zinc-800 overflow-x-scroll">
       {items.map((item, i) =>
         <div
-          className="flex flex-shrink-0 mx-8 my-4 items-center content-center hover:animate-pulse"
+          className="flex flex-shrink-0 mx-4 my-4 items-center content-center hover:animate-pulse"
           key={item.displayName + i}>
           <div className={`relative p-3 justify-center rounded-full bg-zinc-600 border-4 ${item.isOnline ? 'border-green-400' : 'border-pink-500'}`}>
             {i === 0 &&
