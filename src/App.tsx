@@ -177,14 +177,18 @@ function App() {
   return (
     <div className="App flex flex-row min-h-screen bg-black bg-cover bg-[url('https://images.unsplash.com/photo-1533134486753-c833f0ed4866?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80')]">
       {isBooted && isSignedIn &&
-        <div className="flex sticky top-0 h-screen">
-          <SideBar items={userItems()} />
+        <div className="hidden sm:flex sticky top-0 h-screen">
+          <SideBar type={'vertical'} items={userItems()} />
         </div>
       }
       <div className="flex flex-col w-full">
         <header className="bg-zinc-900">
           <TopNavigation items={navigationItems()} />
-          <title>sgreg0r"</title>
+          {isBooted && isSignedIn &&
+            <div className="flex sm:hidden">
+              <SideBar type={'horizontal'} items={userItems()} />
+            </div>
+          }
         </header>
         <main className='flex flex-row grow'>
           <div className="flex flex-col grow">
