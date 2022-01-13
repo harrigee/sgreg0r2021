@@ -2,35 +2,35 @@ import { BsGithub, BsLinkedin, BsTwitch, BsInstagram, BsMailbox2, BsTwitter } fr
 
 export function Footer() {
   return <div className="flex flex-col place-items-center">
-    <div className=" text-white text-center flex flex-row mt-8 mb-4">
-      <div className='mr-3'>
+    <div className="flex flex-row flex-wrap place-items-center justify-center text-white text-center mt-6 mb-2">
+      <div className='mx-3 my-3'>
         <a target="_blank" rel="noopener noreferrer" href='https://github.com/harrigee'>
           <BsGithub size={32} />
         </a>
       </div>
-      <div className='mx-3'>
+      <div className='mx-3 my-3'>
         <a target="_blank" rel="noopener noreferrer" href='https://www.linkedin.com/in/stefan-gregor/'>
-          <BsLinkedin size={32} />
+          <BsLinkedin size={28} />
         </a>
       </div>
-      <div className='mx-3'>
+      <div className='mx-3 my-3'>
         <a target="_blank" rel="noopener noreferrer" href='https://www.twitch.tv/sgreg0r'>
-          <BsTwitch size={32} />
+          <BsTwitch size={28} />
         </a>
       </div>
-      <div className='mx-3'>
+      <div className='mx-3 my-3'>
         <a target="_blank" rel="noopener noreferrer" href='https://twitter.com/sgreg0r'>
-          <BsTwitter size={32} />
+          <BsTwitter size={28} />
         </a>
       </div>
-      <div className='mx-3'>
+      <div className='mx-3 my-3'>
         <a target="_blank" rel="noopener noreferrer" href='http://instagram.com/sgreg0r/'>
-          <BsInstagram size={32} />
+          <BsInstagram size={28} />
         </a>
       </div>
-      <div className='ml-3'>
+      <div className='mx-3 my-3'>
         <a target="_blank" rel="noopener noreferrer" href='mailto:rogfan@icloud.com'>
-          <BsMailbox2 size={32} />
+          <BsMailbox2 size={28} />
         </a>
       </div>
     </div>
