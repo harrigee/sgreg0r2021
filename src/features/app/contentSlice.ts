@@ -5,14 +5,12 @@ export interface ContentState {
   user?: string;
 }
 
-const initialState: ContentState = {
-  value: undefined,
-  user: undefined
-}
-
 export const contentSlice = createSlice({
   name: 'content',
-  initialState,
+  initialState: {
+    value: undefined,
+    user: undefined
+  } as ContentState,
   reducers: {
     setContent: (state, action: PayloadAction<ContentState>) => {
       state.user = action.payload.user;
@@ -21,7 +19,5 @@ export const contentSlice = createSlice({
   },
 })
 
-// Action creators are generated for each case reducer function
 export const { setContent } = contentSlice.actions;
-
 export default contentSlice.reducer;

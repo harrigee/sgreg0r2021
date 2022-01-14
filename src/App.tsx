@@ -1,20 +1,28 @@
-import './App.css';
-import 'firebase/compat/auth';
-import 'firebase/compat/analytics';
-import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
-import { Content } from './components/main/Content';
-import { Input } from './components/main/Input';
-import { FormEvent, useEffect, useState } from 'react';
-import { firebaseConfig } from './secrets/firebaseConfig';
-import { getDatabase, onDisconnect, onValue, ref, runTransaction, set, update } from "firebase/database";
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import firebase from 'firebase/compat/app';
-import { TopNavigation } from './components/navigation/TopNavigation';
-import { Ranking } from './components/main/Ranking';
-import { Footer } from './components/navigation/Footer';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from './app/store';
-import { setContent } from './features/app/contentSlice';
+import "./App.css";
+import "firebase/compat/auth";
+import "firebase/compat/analytics";
+import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
+import { Content } from "./components/main/Content";
+import { Input } from "./components/main/Input";
+import { FormEvent, useEffect, useState } from "react";
+import { firebaseConfig } from "./secrets/firebaseConfig";
+import {
+  getDatabase,
+  onDisconnect,
+  onValue,
+  ref,
+  runTransaction,
+  set,
+  update,
+} from "firebase/database";
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import firebase from "firebase/compat/app";
+import { TopNavigation } from "./components/navigation/TopNavigation";
+import { Ranking } from "./components/main/Ranking";
+import { Footer } from "./components/navigation/Footer";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "./app/store";
+import { setContent } from "./features/app/contentSlice";
 
 const app = firebase.initializeApp(firebaseConfig);
 const database = getDatabase(app);
@@ -24,21 +32,25 @@ const tracker = firebase.analytics(app);
 // Configure FirebaseUI.
 const uiConfig = {
   // Popup signin flow rather than redirect flow.
-  signInFlow: 'popup',
+  signInFlow: "popup",
   // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
-  signInSuccessUrl: '/',
+  signInSuccessUrl: "/",
   // We will display Google and Facebook as auth providers.
-  signInOptions: [
-    firebase.auth.EmailAuthProvider.PROVIDER_ID
-  ]
+  signInOptions: [firebase.auth.EmailAuthProvider.PROVIDER_ID],
 };
 
 function App() {
-
   const content = useSelector((state: RootState) => state.content);
   const dispatch = useDispatch();
 
-  const [users, setUsers] = useState<{ [key: string]: { uid: string, displayName: string, isOnline: boolean, charCount: number } }>({});
+  const [users, setUsers] = useState<{
+    [key: string]: {
+      uid: string;
+      displayName: string;
+      isOnline: boolean;
+      charCount: number;
+    };
+  }>({});
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isBooted, setIsBooted] = useState(false);
 
@@ -46,22 +58,21 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
-
-    const dataRef = ref(database, 'data');
+    const dataRef = ref(database, "data");
 
     onValue(dataRef, (snapshot) => {
       const data = snapshot.val();
       dispatch(setContent(data));
     });
 
-    const usersRef = ref(database, 'users');
+    const usersRef = ref(database, "users");
 
     onValue(usersRef, (snapshot) => {
       const users = snapshot.val();
       setUsers(users);
     });
 
-    const unregisterAuthObserver = auth.onAuthStateChanged(user => {
+    const unregisterAuthObserver = auth.onAuthStateChanged((user) => {
       setIsSignedIn(user != null);
       setIsBooted(true);
       onOnline();
@@ -69,18 +80,16 @@ function App() {
     });
 
     return () => unregisterAuthObserver();
-
   }, [dispatch]);
 
   function onInput(event: FormEvent<HTMLInputElement>) {
-
     const user = firebase.auth().currentUser;
 
     if (!user) {
       return;
     }
 
-    const userRef = ref(database, 'users/' + user.uid);
+    const userRef = ref(database, "users/" + user.uid);
 
     runTransaction(userRef, (user) => {
       if (user) {
@@ -93,9 +102,9 @@ function App() {
       return user;
     });
 
-    set(ref(database, 'data'), {
+    set(ref(database, "data"), {
       value: event.currentTarget.value,
-      user: firebase.auth().currentUser?.displayName
+      user: firebase.auth().currentUser?.displayName,
     });
   }
 
@@ -104,10 +113,10 @@ function App() {
     if (!user) {
       return;
     }
-    update(ref(database, 'users/' + user.uid), {
+    update(ref(database, "users/" + user.uid), {
       uid: user.uid,
       displayName: user.displayName,
-      isOnline: true
+      isOnline: true,
     });
   }
 
@@ -116,45 +125,44 @@ function App() {
     if (!user) {
       return;
     }
-    const userRef = ref(database, 'users/' + user.uid);
+    const userRef = ref(database, "users/" + user.uid);
     onDisconnect(userRef).update({
-      isOnline: false
-    })
+      isOnline: false,
+    });
   }
 
   function navigationItems() {
-
     const home = {
-      name: 'Home',
-      onClick: () => navigate('/')
+      name: "Home",
+      onClick: () => navigate("/"),
     };
 
     const signIn = {
-      name: 'Sign In',
-      onClick: () => navigate('/signin')
+      name: "Sign In",
+      onClick: () => navigate("/signin"),
     };
 
     const logout = {
-      name: 'Logout',
+      name: "Logout",
       onClick: () => {
         auth.signOut();
-        navigate('/');
-      }
-    }
+        navigate("/");
+      },
+    };
 
     if (!isBooted) {
       return [];
     }
 
-    if (!isSignedIn && location.pathname !== '/') {
+    if (!isSignedIn && location.pathname !== "/") {
       return [home];
     }
 
-    if (!isSignedIn && location.pathname !== '/signin') {
+    if (!isSignedIn && location.pathname !== "/signin") {
       return [signIn];
     }
 
-    if (isSignedIn && location.pathname !== '/') {
+    if (isSignedIn && location.pathname !== "/") {
       return [home, logout];
     }
 
@@ -177,31 +185,48 @@ function App() {
 
   return (
     <div className="App flex flex-row min-h-screen bg-black bg-cover bg-[url('https://images.unsplash.com/photo-1533134486753-c833f0ed4866?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80')]">
-      {isBooted && isSignedIn &&
+      {isBooted && isSignedIn && (
         <div className="hidden sm:flex sticky top-0 h-screen">
-          <Ranking type={'vertical'} items={userItems()} />
+          <Ranking type={"vertical"} items={userItems()} />
         </div>
-      }
+      )}
       <div className="flex flex-col w-full">
         <header className="bg-zinc-900">
           <TopNavigation items={navigationItems()} />
-          {isBooted && isSignedIn &&
+          {isBooted && isSignedIn && (
             <div className="flex flex-col sm:hidden">
-              <Ranking type={'horizontal'} items={userItems()} />
+              <Ranking type={"horizontal"} items={userItems()} />
               <div className="h-1 w-full bg-zinc-900" />
             </div>
-          }
+          )}
         </header>
-        <main className='flex flex-row grow justify-center'>
+        <main className="flex flex-row grow justify-center">
           <div className="flex flex-col justify-center w-full">
             <Routes>
-              <Route path="/" element={<Content value={content.value} user={content.user} />} />
-              <Route path="/signin" element={<StyledFirebaseAuth className='w-full mt-16' uiConfig={uiConfig} firebaseAuth={auth} />} />
-              <Route path="/*" element={<Content value={'No no no no 🙃'} user={location.pathname} />} />
+              <Route
+                path="/"
+                element={<Content value={content.value} user={content.user} />}
+              />
+              <Route
+                path="/signin"
+                element={
+                  <StyledFirebaseAuth
+                    className="w-full mt-16"
+                    uiConfig={uiConfig}
+                    firebaseAuth={auth}
+                  />
+                }
+              />
+              <Route
+                path="/*"
+                element={
+                  <Content value={"No no no no 🙃"} user={location.pathname} />
+                }
+              />
             </Routes>
-            {isBooted && isSignedIn && location.pathname === '/' &&
+            {isBooted && isSignedIn && location.pathname === "/" && (
               <Input onInput={onInput} />
-            }
+            )}
           </div>
         </main>
         <footer className="w-full bottom-0 bg-zinc-900">
