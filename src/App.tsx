@@ -12,6 +12,9 @@ import firebase from 'firebase/compat/app';
 import { TopNavigation } from './components/navigation/TopNavigation';
 import { Ranking } from './components/main/Ranking';
 import { Footer } from './components/navigation/Footer';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from './app/store';
+import { setContent } from './features/app/contentSlice';
 
 const app = firebase.initializeApp(firebaseConfig);
 const database = getDatabase(app);
@@ -32,10 +35,9 @@ const uiConfig = {
 
 function App() {
 
-  const [data, setData] = useState({
-    value: '...',
-    user: undefined
-  });
+  const content = useSelector((state: RootState) => state.content);
+  const dispatch = useDispatch();
+
   const [users, setUsers] = useState<{ [key: string]: { uid: string, displayName: string, isOnline: boolean, charCount: number } }>({});
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isBooted, setIsBooted] = useState(false);
@@ -49,10 +51,7 @@ function App() {
 
     onValue(dataRef, (snapshot) => {
       const data = snapshot.val();
-      setData({
-        value: data.value,
-        user: data.user
-      });
+      dispatch(setContent(data));
     });
 
     const usersRef = ref(database, 'users');
@@ -71,7 +70,7 @@ function App() {
 
     return () => unregisterAuthObserver();
 
-  }, []);
+  }, [dispatch]);
 
   function onInput(event: FormEvent<HTMLInputElement>) {
 
@@ -196,7 +195,7 @@ function App() {
         <main className='flex flex-row grow justify-center'>
           <div className="flex flex-col justify-center w-full">
             <Routes>
-              <Route path="/" element={<Content value={data.value} user={data.user} />} />
+              <Route path="/" element={<Content value={content.value} user={content.user} />} />
               <Route path="/signin" element={<StyledFirebaseAuth className='w-full mt-16' uiConfig={uiConfig} firebaseAuth={auth} />} />
               <Route path="/*" element={<Content value={'No no no no 🙃'} user={location.pathname} />} />
             </Routes>
