@@ -20,9 +20,10 @@ import firebase from "firebase/compat/app";
 import { TopNavigation } from "./components/navigation/TopNavigation";
 import { Ranking } from "./components/main/Ranking";
 import { Footer } from "./components/navigation/Footer";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "./app/store";
+import { selectContent, selectUsers } from "./app/store";
 import { setContent } from "./features/app/contentSlice";
+import { setUsers } from "./features/app/usersSlice";
+import { useAppSelector, useAppDispatch } from "./app/hooks";
 
 const app = firebase.initializeApp(firebaseConfig);
 const database = getDatabase(app);
@@ -40,17 +41,10 @@ const uiConfig = {
 };
 
 function App() {
-  const content = useSelector((state: RootState) => state.content);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const content = useAppSelector(selectContent);
+  const users = useAppSelector(selectUsers);
 
-  const [users, setUsers] = useState<{
-    [key: string]: {
-      uid: string;
-      displayName: string;
-      isOnline: boolean;
-      charCount: number;
-    };
-  }>({});
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isBooted, setIsBooted] = useState(false);
 
@@ -69,7 +63,8 @@ function App() {
 
     onValue(usersRef, (snapshot) => {
       const users = snapshot.val();
-      setUsers(users);
+      console.log(users);
+      dispatch(setUsers(users));
     });
 
     const unregisterAuthObserver = auth.onAuthStateChanged((user) => {
@@ -84,7 +79,6 @@ function App() {
 
   function onInput(event: FormEvent<HTMLInputElement>) {
     const user = firebase.auth().currentUser;
-
     if (!user) {
       return;
     }
