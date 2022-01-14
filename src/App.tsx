@@ -20,10 +20,9 @@ import firebase from "firebase/compat/app";
 import { TopNavigation } from "./components/navigation/TopNavigation";
 import { Ranking } from "./components/main/Ranking";
 import { Footer } from "./components/navigation/Footer";
-import { selectContent, selectUsers } from "./app/store";
-import { setContent } from "./features/app/contentSlice";
-import { setUsers } from "./features/app/usersSlice";
+import { selectContent, setContent } from "./features/app/contentSlice";
 import { useAppSelector, useAppDispatch } from "./app/hooks";
+import { selectSortedUsers, setUsers } from "./features/app/usersSlice";
 
 const app = firebase.initializeApp(firebaseConfig);
 const database = getDatabase(app);
@@ -43,7 +42,7 @@ const uiConfig = {
 function App() {
   const dispatch = useAppDispatch();
   const content = useAppSelector(selectContent);
-  const users = useAppSelector(selectUsers);
+  const users = useAppSelector(selectSortedUsers);
 
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isBooted, setIsBooted] = useState(false);
@@ -163,25 +162,11 @@ function App() {
     return [logout];
   }
 
-  function userItems() {
-    const userItems = Object.values(users);
-    userItems.sort((item1, item2) => {
-      if (!item1.charCount) {
-        return 1;
-      }
-      if (item1.charCount <= item2.charCount) {
-        return 1;
-      }
-      return -1;
-    });
-    return userItems;
-  }
-
   return (
     <div className="App flex flex-row min-h-screen bg-black bg-cover bg-[url('https://images.unsplash.com/photo-1533134486753-c833f0ed4866?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80')]">
       {isBooted && isSignedIn && (
         <div className="hidden sm:flex sticky top-0 h-screen">
-          <Ranking type={"vertical"} items={userItems()} />
+          <Ranking type={"vertical"} users={users} />
         </div>
       )}
       <div className="flex flex-col w-full">
@@ -189,7 +174,7 @@ function App() {
           <TopNavigation items={navigationItems()} />
           {isBooted && isSignedIn && (
             <div className="flex flex-col sm:hidden">
-              <Ranking type={"horizontal"} items={userItems()} />
+              <Ranking type={"horizontal"} users={users} />
               <div className="h-1 w-full bg-zinc-900" />
             </div>
           )}
