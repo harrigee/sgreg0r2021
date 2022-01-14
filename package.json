@@ -31,7 +31,13 @@
     "build": "react-scripts build",
     "deploy": "firebase deploy",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx,json,css,}": [
+      "prettier --write"
+    ]
   },
   "eslintConfig": {
     "extends": [
@@ -53,6 +59,8 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.1.7",
     "postcss": "^8.4.5",
     "tailwindcss": "^3.0.7"
   }
