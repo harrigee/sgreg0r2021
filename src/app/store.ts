@@ -1,9 +1,9 @@
-import { configureStore } from '@reduxjs/toolkit'
-import contentReducer from '../features/app/contentSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import contentReducer from "../features/app/contentSlice";
 
 export const store = configureStore({
   reducer: {
-    content: contentReducer
+    content: contentReducer,
   },
 });
 

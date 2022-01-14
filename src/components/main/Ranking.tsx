@@ -15,9 +15,6 @@ export function Ranking({
   if (type === "horizontal") {
     return (
       <div className="flex flex-row min-w-screen shadow-2xl scrollbar-hide bg-zinc-800 overflow-x-scroll">
-
-
-
         {items.map((item, i) => (
           <div
             className="flex flex-shrink-0 w-48 mx-4 my-4 items-center content-center hover:animate-pulse"
