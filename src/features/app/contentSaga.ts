@@ -10,9 +10,7 @@ function* syncContent() {
       const data = snapshot.val();
       emitter(data);
     });
-    return () => {
-      listener();
-    };
+    return listener;
   });
   while (true) {
     const data: IContentState = yield take(channel);
