@@ -22,6 +22,7 @@ export const usersSlice = createSlice({
   },
 });
 
+// Selectors
 export const selectSortedUsers = (state: RootState) => {
   const users = state.users;
   const userItems = Object.values(users);
@@ -37,5 +38,8 @@ export const selectSortedUsers = (state: RootState) => {
   return userItems;
 };
 
+// Actions
 export const { setUsers } = usersSlice.actions;
+
+// Reducer
 export default usersSlice.reducer;

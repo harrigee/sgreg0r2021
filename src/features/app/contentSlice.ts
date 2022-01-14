@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
-export interface ContentState {
+export interface IContentState {
   value?: string;
   user?: string;
 }
@@ -11,16 +11,21 @@ export const contentSlice = createSlice({
   initialState: {
     value: undefined,
     user: undefined,
-  } as ContentState,
+  } as IContentState,
   reducers: {
-    setContent: (state, action: PayloadAction<ContentState>) => {
+    getContent: (_) => {},
+    setContent: (state, action: PayloadAction<IContentState>) => {
       state.user = action.payload.user;
       state.value = action.payload.value;
     },
   },
 });
 
+// Selectors
 export const selectContent = (state: RootState) => state.content;
 
-export const { setContent } = contentSlice.actions;
+// Actions
+export const { setContent, getContent } = contentSlice.actions;
+
+// Reducer
 export default contentSlice.reducer;

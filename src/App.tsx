@@ -1,13 +1,9 @@
 import "./App.css";
-import "firebase/compat/auth";
-import "firebase/compat/analytics";
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import { Content } from "./components/main/Content";
 import { Input } from "./components/main/Input";
 import { FormEvent, useEffect, useState } from "react";
-import { firebaseConfig } from "./secrets/firebaseConfig";
 import {
-  getDatabase,
   onDisconnect,
   onValue,
   ref,
@@ -15,29 +11,16 @@ import {
   set,
   update,
 } from "firebase/database";
+import "firebase/compat/auth";
+import "firebase/compat/analytics";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
-import firebase from "firebase/compat/app";
 import { TopNavigation } from "./components/navigation/TopNavigation";
 import { Ranking } from "./components/main/Ranking";
 import { Footer } from "./components/navigation/Footer";
-import { selectContent, setContent } from "./features/app/contentSlice";
+import { getContent, selectContent } from "./features/app/contentSlice";
 import { useAppSelector, useAppDispatch } from "./app/hooks";
 import { selectSortedUsers, setUsers } from "./features/app/usersSlice";
-
-const app = firebase.initializeApp(firebaseConfig);
-const database = getDatabase(app);
-const auth = firebase.auth();
-const tracker = firebase.analytics(app);
-
-// Configure FirebaseUI.
-const uiConfig = {
-  // Popup signin flow rather than redirect flow.
-  signInFlow: "popup",
-  // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
-  signInSuccessUrl: "/",
-  // We will display Google and Facebook as auth providers.
-  signInOptions: [firebase.auth.EmailAuthProvider.PROVIDER_ID],
-};
+import { auth, database, signInUiConfig, tracker } from "./firebase/firebase";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -51,12 +34,7 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
-    const dataRef = ref(database, "data");
-
-    onValue(dataRef, (snapshot) => {
-      const data = snapshot.val();
-      dispatch(setContent(data));
-    });
+    dispatch(getContent());
 
     const usersRef = ref(database, "users");
 
@@ -77,7 +55,7 @@ function App() {
   }, [dispatch]);
 
   function onInput(event: FormEvent<HTMLInputElement>) {
-    const user = firebase.auth().currentUser;
+    const user = auth.currentUser;
     if (!user) {
       return;
     }
@@ -97,12 +75,12 @@ function App() {
 
     set(ref(database, "data"), {
       value: event.currentTarget.value,
-      user: firebase.auth().currentUser?.displayName,
+      user: auth.currentUser?.displayName,
     });
   }
 
   function onOnline() {
-    const user = firebase.auth().currentUser;
+    const user = auth.currentUser;
     if (!user) {
       return;
     }
@@ -114,7 +92,7 @@ function App() {
   }
 
   function onOffline() {
-    const user = firebase.auth().currentUser;
+    const user = auth.currentUser;
     if (!user) {
       return;
     }
@@ -191,7 +169,7 @@ function App() {
                 element={
                   <StyledFirebaseAuth
                     className="w-full mt-16"
-                    uiConfig={uiConfig}
+                    uiConfig={signInUiConfig}
                     firebaseAuth={auth}
                   />
                 }
