@@ -13,7 +13,7 @@ export function Ranking({
       <div className="flex flex-row min-w-screen shadow-2xl scrollbar-hide bg-zinc-800 overflow-x-scroll">
         {users.map((user, i) => (
           <div
-            className="flex flex-shrink-0 w-48 mx-4 my-4 items-center content-center hover:animate-pulse"
+            className="flex flex-shrink-0 mx-4 my-4 items-center content-center hover:animate-pulse"
             key={user.displayName + i}
           >
             <div

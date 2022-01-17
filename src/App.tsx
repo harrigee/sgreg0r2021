@@ -40,7 +40,6 @@ function App() {
 
     onValue(usersRef, (snapshot) => {
       const users = snapshot.val();
-      console.log(users);
       dispatch(setUsers(users));
     });
 
