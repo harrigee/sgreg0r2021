@@ -1,7 +1,6 @@
 import "./App.css";
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import { Content } from "./components/main/Content";
-import { Input } from "./components/main/Input";
 import { FormEvent, useEffect, useState } from "react";
 import {
   onDisconnect,
@@ -161,7 +160,13 @@ function App() {
             <Routes>
               <Route
                 path="/"
-                element={<Content value={content.value} user={content.user} />}
+                element={
+                  <Content
+                    onInput={onInput}
+                    value={content.value}
+                    user={content.user}
+                  />
+                }
               />
               <Route
                 path="/signin"
@@ -180,9 +185,6 @@ function App() {
                 }
               />
             </Routes>
-            {isBooted && isSignedIn && location.pathname === "/" && (
-              <Input onInput={onInput} />
-            )}
           </div>
         </main>
         <footer className="w-full bottom-0 bg-zinc-900">
