@@ -162,6 +162,7 @@ function App() {
                 path="/"
                 element={
                   <Content
+                    isSignedIn={isSignedIn}
                     onInput={onInput}
                     value={content.value}
                     user={content.user}
@@ -181,7 +182,11 @@ function App() {
               <Route
                 path="/*"
                 element={
-                  <Content value={"No no no no 🙃"} user={location.pathname} />
+                  <Content
+                    isSignedIn={false}
+                    value={"No no no no 🙃"}
+                    user={location.pathname}
+                  />
                 }
               />
             </Routes>

@@ -4,10 +4,12 @@ import { Input } from "./Input";
 import { JellyfishSpinner } from "react-spinners-kit";
 
 export function Content({
+  isSignedIn,
   onInput,
   value,
   user,
 }: {
+  isSignedIn: boolean;
   onInput?: (event: FormEvent<HTMLInputElement>) => void;
   value?: string;
   user?: string;
@@ -20,14 +22,14 @@ export function Content({
             <p className="break-words text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-left">
               <Linkify>{value !== "" ? value : "Type something..."}</Linkify>
             </p>
-            {user && <p className="mt-4">{user}</p>}
+            {value !== "" && user && <p className="mt-4">{user}</p>}
           </>
         )}
         {value == null && (
           <JellyfishSpinner size={128} color="white" loading={true} />
         )}
       </div>
-      {value != null && !!onInput && <Input onInput={onInput} />}
+      {isSignedIn && value != null && !!onInput && <Input onInput={onInput} />}
     </>
   );
 }
