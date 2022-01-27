@@ -14,10 +14,12 @@ jobs:
     steps:
       - name: Setup PNPM
         uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.26.1
       - name: Checkout repository
         uses: actions/checkout@main
       - name: Install dependencies
-        run: pnpm/action-setup@v2.0.1
+        run: pnpm run install
       - name: Build dependencies
         run: pnpm run build
       - name: Archive production artifact
