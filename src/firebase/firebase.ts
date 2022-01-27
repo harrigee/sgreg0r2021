@@ -2,9 +2,10 @@ import "firebase/compat/auth";
 import "firebase/compat/analytics";
 import firebase from "firebase/compat/app";
 import { getDatabase } from "firebase/database";
-import { firebaseConfig } from "../secrets/firebaseConfig";
 
-const app = firebase.initializeApp(firebaseConfig);
+const app = firebase.initializeApp(
+  JSON.parse(process.env.REACT_APP_FIREBASE_CONFIG!)
+);
 
 export const database = getDatabase(app);
 export const auth = firebase.auth();
