@@ -30,7 +30,7 @@ export function Ranking({
                 width={40}
                 height={40}
                 alt="avatar"
-                src={`https://avatars.dicebear.com/api/adventurer/${user.uid}.svg`}
+                src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${user.uid}`}
               />
             </div>
             <div className="flex flex-col self-center">
@@ -71,7 +71,7 @@ export function Ranking({
               width={i === 0 ? 92 : i === 1 ? 72 : 48}
               height={i === 0 ? 92 : i === 1 ? 72 : 48}
               alt="avatar"
-              src={`https://avatars.dicebear.com/api/adventurer/${item.uid}.svg`}
+              src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${item.uid}`}
             />
           </div>
           <div className="flex flex-col self-center grow">
