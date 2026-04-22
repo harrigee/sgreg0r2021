@@ -15,38 +15,17 @@
 }
 
 /* ---------- Background layers ---------- */
+/* Static radial gradients — no animation, no filter, no blend mode. */
 .aurora {
   position: fixed;
-  inset: -15%;
+  inset: 0;
   z-index: 0;
   pointer-events: none;
-  filter: blur(130px) saturate(120%);
-  opacity: 0.7;
-}
-.aurora::before,
-.aurora::after {
-  content: "";
-  position: absolute;
-  inset: 0;
   background:
-    radial-gradient(52% 44% at 14% 22%, rgba(var(--accent-rgb), 0.38), transparent 62%),
-    radial-gradient(48% 40% at 86% 76%, rgba(var(--accent2-rgb), 0.36), transparent 62%),
-    radial-gradient(34% 30% at 62% 12%, rgba(var(--accent-rgb), 0.22), transparent 62%),
-    radial-gradient(40% 34% at 30% 84%, rgba(var(--accent2-rgb), 0.26), transparent 62%);
-  animation: drift 48s ease-in-out infinite alternate;
-  mix-blend-mode: screen;
-}
-.aurora::after {
-  animation-duration: 62s;
-  animation-direction: alternate-reverse;
-  transform: scale(1.25) rotate(12deg);
-  opacity: 0.6;
-  filter: hue-rotate(-8deg);
-}
-@keyframes drift {
-  0%   { transform: translate3d(-4%, -3%, 0) scale(1.02); }
-  50%  { transform: translate3d( 3%,  4%, 0) scale(1.12); }
-  100% { transform: translate3d( 5%, -2%, 0) scale(1.04); }
+    radial-gradient(55% 50% at 18% 22%, rgba(var(--accent-rgb), 0.32), transparent 60%),
+    radial-gradient(55% 50% at 82% 78%, rgba(var(--accent2-rgb), 0.3), transparent 60%),
+    radial-gradient(45% 40% at 70% 18%, rgba(var(--accent-rgb), 0.16), transparent 60%),
+    radial-gradient(45% 40% at 26% 82%, rgba(var(--accent2-rgb), 0.18), transparent 60%);
 }
 
 .grain {
@@ -689,13 +668,6 @@
     justify-content: flex-start;
   }
   .phrase { --base: min(12vw, 18vh); }
-  .phrase-rail { grid-template-columns: 1fr; }
-  .phrase-kicker, .phrase-meta-tr {
-    position: static;
-    margin-bottom: 8px;
-    justify-self: start;
-    text-align: left;
-  }
   .composer input { padding: 12px 10px; }
   .user-chip .uname { display: none; }
 }
