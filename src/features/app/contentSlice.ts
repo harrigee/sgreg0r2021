@@ -5,6 +5,7 @@ export interface IContentState {
   value?: string;
   user?: string;
   email?: string;
+  postedAt?: number;
 }
 
 export const contentSlice = createSlice({
@@ -12,12 +13,14 @@ export const contentSlice = createSlice({
   initialState: {
     value: undefined,
     user: undefined,
+    postedAt: undefined,
   } as IContentState,
   reducers: {
     getContent: (_) => {},
     setContent: (state, action: PayloadAction<IContentState>) => {
-      state.user = action.payload.user;
-      state.value = action.payload.value;
+      state.user = action.payload?.user;
+      state.value = action.payload?.value;
+      state.postedAt = action.payload?.postedAt;
     },
   },
 });

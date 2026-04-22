@@ -44,30 +44,28 @@ const LINKS = [
 
 export function Footer({ tracker }: { tracker: firebase.analytics.Analytics }) {
   return (
-    <footer
-      className="w-full py-6 px-6 flex flex-col sm:flex-row items-center justify-between gap-4"
-      style={{ borderTop: '1px solid var(--border)' }}
-    >
-      <div className="flex items-center gap-5">
+    <div className="bottom">
+      <div className="left" />
+      <div className="center">
         {LINKS.map(({ icon: Icon, href, event, self: isSelf }) => (
           <button
             key={event}
             className="social-btn"
             onClick={() => {
-              window.open(href, isSelf ? '_self' : '_blank');
+              window.open(href, isSelf ? "_self" : "_blank");
               tracker.logEvent(event);
             }}
+            aria-label={event.replace("link_clicked_", "")}
           >
-            <Icon size={18} />
+            <Icon size={15} />
           </button>
         ))}
       </div>
-      <span
-        className="text-xs"
-        style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", color: 'var(--text-2)', letterSpacing: '0.02em', fontSize: '0.6875rem' }}
-      >
-        Stefan Gregor © 2026
-      </span>
-    </footer>
+      <div className="right">
+        <span>
+          © stefan gregor · <b>2026</b>
+        </span>
+      </div>
+    </div>
   );
 }

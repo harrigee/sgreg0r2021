@@ -1,7 +1,7 @@
 import "./App.css";
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import { Content } from "./components/main/Content";
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ref, set } from "firebase/database";
 import "firebase/compat/auth";
 import "firebase/compat/analytics";
@@ -21,6 +21,7 @@ function App() {
 
   const navigate = useNavigate();
   const location = useLocation();
+
   useEffect(() => {
     dispatch(getContent());
 
@@ -32,14 +33,15 @@ function App() {
     return () => unregisterAuthObserver();
   }, [dispatch]);
 
-  function onInput(event: FormEvent<HTMLInputElement>) {
+  function handleSubmit(next: string) {
     const user = auth.currentUser;
     if (!user) return;
 
     set(ref(database, "data"), {
-      value: event.currentTarget.value,
-      user: auth.currentUser?.displayName,
-      email: auth.currentUser?.email,
+      value: next,
+      user: user.displayName,
+      email: user.email,
+      postedAt: Date.now(),
     });
   }
 
@@ -61,41 +63,45 @@ function App() {
     return [logout];
   }
 
-  return (
-    <div className="App flex flex-col min-h-screen">
-      <header
-        className="glass sticky top-0 z-50"
-        style={{ borderBottom: "1px solid var(--border)" }}
-      >
-        <TopNavigation items={navigationItems()} user={auth.currentUser?.displayName ?? undefined} />
-      </header>
+  const displayName = auth.currentUser?.displayName ?? undefined;
 
-      <main className="flex flex-col flex-1">
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Content
-                isSignedIn={isSignedIn}
-                onInput={onInput}
-                value={content.value}
-                user={content.user}
-              />
-            }
-          />
-          <Route path="/signin" element={<SignIn />} />
-          <Route
-            path="/*"
-            element={
-              <Content
-                isSignedIn={false}
-                value={"No no no no 🙃"}
-                user={location.pathname}
-              />
-            }
-          />
-        </Routes>
-      </main>
+  return (
+    <div className="App">
+      <div className="aurora" aria-hidden="true" />
+      <div className="vignette" aria-hidden="true" />
+      <div className="grain" aria-hidden="true" />
+
+      <TopNavigation
+        items={navigationItems()}
+        user={displayName}
+        onBrandClick={() => navigate("/")}
+      />
+
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Content
+              isSignedIn={isSignedIn}
+              onSubmit={handleSubmit}
+              value={content.value}
+              user={content.user}
+              postedAt={content.postedAt}
+            />
+          }
+        />
+        <Route path="/signin" element={<SignIn />} />
+        <Route
+          path="/*"
+          element={
+            <Content
+              isSignedIn={false}
+              value={"No no no no"}
+              user={location.pathname}
+            />
+          }
+        />
+      </Routes>
 
       <Footer tracker={tracker} />
     </div>

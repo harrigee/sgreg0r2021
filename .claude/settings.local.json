@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(CI=true BROWSER=none npm run build)"
+    ]
+  }
+}

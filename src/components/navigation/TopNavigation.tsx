@@ -3,43 +3,49 @@ export interface ITopNavigationItem {
   onClick: () => void;
 }
 
-export function TopNavigation({ items, user }: { items: ITopNavigationItem[]; user?: string }) {
+function initials(name?: string) {
+  if (!name) return "·";
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 1) return parts[0].slice(0, 2);
+  return (parts[0][0] + parts[parts.length - 1][0]).slice(0, 2);
+}
+
+export function TopNavigation({
+  items,
+  user,
+  onBrandClick,
+}: {
+  items: ITopNavigationItem[];
+  user?: string;
+  onBrandClick?: () => void;
+}) {
   return (
-    <nav className="flex items-center justify-between px-5" style={{ height: "52px" }}>
-      <span
-        className="select-none cursor-default"
-        style={{ fontFamily: "'Bricolage Grotesque', sans-serif", fontWeight: 800, fontSize: "1.125rem", letterSpacing: "-0.03em", color: "var(--text)" }}
-      >
-        sgreg
-        <span style={{
-          background: "linear-gradient(135deg, #f472b6 0%, #a78bfa 100%)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          backgroundClip: "text",
-        }}>0r</span>
-      </span>
-      <div className="flex items-center gap-3">
+    <header className="topbar">
+      <div className="left">
+        <button className="brand" onClick={onBrandClick} aria-label="sgreg0r">
+          sgreg<span className="zero">0</span>r
+        </button>
+      </div>
+
+      <div className="center-meta" />
+
+      <div className="right">
         {user && (
-          <span style={{
-            fontFamily: "'JetBrains Mono', 'SF Mono', monospace",
-            fontSize: "0.6875rem",
-            letterSpacing: "0.06em",
-            textTransform: "uppercase",
-            color: "var(--text-3)",
-          }}>
-            {user}
+          <span className="user-chip" title="Signed in">
+            <span className="avatar">{initials(user)}</span>
+            <span className="uname">{user.toLowerCase()}</span>
           </span>
         )}
         {items.map((item, i) => (
           <button
             key={item.name + i}
             onClick={item.onClick}
-            className="nav-btn"
+            className="ghost-btn"
           >
             {item.name}
           </button>
         ))}
       </div>
-    </nav>
+    </header>
   );
 }

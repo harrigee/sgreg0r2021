@@ -52,90 +52,36 @@ export function SignIn() {
   const isSignIn = mode === "signin";
 
   return (
-    <div className="flex flex-1 items-center justify-center px-4 py-20 animate-fade-up">
-      <div
-        className="corner-marks w-full"
-        style={{
-          maxWidth: "22rem",
-          background: "var(--surface)",
-          border: "1px solid var(--border)",
-          borderRadius: "16px",
-          padding: "2.5rem 2rem",
-        }}
-      >
-        {/* Mode toggle */}
-        <div
-          style={{
-            display: "flex",
-            background: "var(--surface-2)",
-            borderRadius: "10px",
-            padding: "3px",
-            marginBottom: "2rem",
-            gap: "3px",
-          }}
-        >
+    <main className="stage" style={{ alignItems: "center" }}>
+      <div className="signin-card">
+        <div className="mode-toggle">
           {(["signin", "signup"] as Mode[]).map((m) => (
             <button
               key={m}
               type="button"
               onClick={() => switchMode(m)}
-              style={{
-                flex: 1,
-                padding: "0.45rem 0",
-                borderRadius: "8px",
-                border: "none",
-                cursor: "pointer",
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                fontWeight: 500,
-                fontSize: "0.875rem",
-                transition: "background 0.18s ease, color 0.18s ease",
-                background: mode === m ? "var(--surface)" : "transparent",
-                color: mode === m ? "var(--text)" : "var(--text-3)",
-                boxShadow: mode === m ? "0 1px 3px rgba(0,0,0,0.3)" : "none",
-              }}
+              className={mode === m ? "active" : ""}
             >
               {m === "signin" ? "Sign in" : "Create account"}
             </button>
           ))}
         </div>
 
-        {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: "1.75rem" }}>
-          <div
-            style={{
-              fontFamily: "'Bricolage Grotesque', sans-serif",
-              fontSize: "1.5rem",
-              fontWeight: 700,
-              color: "var(--text)",
-              letterSpacing: "-0.03em",
-            }}
-          >
-            {isSignIn ? "Welcome back" : "Create account"}
-          </div>
-          <p
-            style={{
-              color: "var(--text-3)",
-              fontSize: "0.875rem",
-              marginTop: "0.4rem",
-              marginBottom: 0,
-            }}
-          >
-            {isSignIn ? "Sign in to continue" : "Get started today"}
-          </p>
-        </div>
+        <h1>{isSignIn ? "welcome back" : "create account"}</h1>
+        <p className="subtitle">
+          {isSignIn ? "sign in to take the canvas" : "get started in a second"}
+        </p>
 
-        {/* Form */}
         <form
           onSubmit={handleSubmit}
           style={{ display: "flex", flexDirection: "column", gap: "1.1rem" }}
         >
           {!isSignIn && (
             <div>
-              <label style={labelStyle}>Name</label>
+              <label>Name</label>
               <input
-                className="minimal-input"
                 type="text"
-                placeholder="Your name"
+                placeholder="your name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
@@ -145,9 +91,8 @@ export function SignIn() {
           )}
 
           <div>
-            <label style={labelStyle}>Email</label>
+            <label>Email</label>
             <input
-              className="minimal-input"
               type="email"
               placeholder="you@example.com"
               value={email}
@@ -158,9 +103,8 @@ export function SignIn() {
           </div>
 
           <div>
-            <label style={labelStyle}>Password</label>
+            <label>Password</label>
             <input
-              className="minimal-input"
               type="password"
               placeholder="••••••••"
               value={password}
@@ -170,56 +114,19 @@ export function SignIn() {
             />
           </div>
 
-          {error && (
-            <p
-              style={{
-                color: "#f87171",
-                fontSize: "0.8125rem",
-                margin: 0,
-                padding: "0.6rem 0.8rem",
-                background: "rgba(248,113,113,0.08)",
-                borderRadius: "8px",
-                border: "1px solid rgba(248,113,113,0.18)",
-              }}
-            >
-              {error}
-            </p>
-          )}
+          {error && <p className="error">{error}</p>}
 
-          <button
-            type="submit"
-            disabled={loading}
-            style={{
-              marginTop: "0.25rem",
-              background: loading ? "var(--surface-2)" : "var(--accent)",
-              color: loading ? "var(--text-2)" : "#131211",
-              border: "none",
-              borderRadius: "10px",
-              padding: "0.75rem 1.2rem",
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
-              fontWeight: 600,
-              fontSize: "0.9375rem",
-              cursor: loading ? "not-allowed" : "pointer",
-              width: "100%",
-              transition: "background 0.18s ease, color 0.18s ease",
-            }}
-          >
+          <button type="submit" disabled={loading} className="submit">
             {loading
-              ? isSignIn ? "Signing in…" : "Creating account…"
-              : isSignIn ? "Sign in" : "Create account"}
+              ? isSignIn
+                ? "signing in…"
+                : "creating account…"
+              : isSignIn
+              ? "sign in"
+              : "create account"}
           </button>
         </form>
       </div>
-    </div>
+    </main>
   );
 }
-
-const labelStyle: React.CSSProperties = {
-  display: "block",
-  fontSize: "0.6875rem",
-  color: "var(--text-2)",
-  marginBottom: "0.4rem",
-  letterSpacing: "0.08em",
-  textTransform: "uppercase",
-  fontFamily: "'JetBrains Mono', 'SF Mono', monospace",
-};
