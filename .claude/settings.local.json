@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "Bash(npx tsc *)",
-      "Bash(CI=true BROWSER=none npm run build)"
+      "Bash(CI=true BROWSER=none npm run build)",
+      "Bash(grep -E \"^\\(tsc|react-scripts\\)$\")",
+      "Bash(node_modules/.bin/tsc --noEmit -p tsconfig.json)",
+      "Bash(node_modules/.bin/eslint --ext .tsx --ext .ts src/)"
     ]
   }
 }

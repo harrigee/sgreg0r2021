@@ -11,6 +11,7 @@ import { Footer } from "./components/navigation/Footer";
 import { getContent, selectContent } from "./features/app/contentSlice";
 import { useAppSelector, useAppDispatch } from "./app/hooks";
 import { auth, database, tracker } from "./firebase/firebase";
+import { ShaderBackdrop } from "./components/main/ShaderBackdrop";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -18,6 +19,7 @@ function App() {
 
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isBooted, setIsBooted] = useState(false);
+  const [fontsReady, setFontsReady] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -32,6 +34,25 @@ function App() {
 
     return () => unregisterAuthObserver();
   }, [dispatch]);
+
+  useEffect(() => {
+    const fonts = (document as any).fonts;
+    if (!fonts?.ready) {
+      setFontsReady(true);
+      return;
+    }
+    let cancelled = false;
+    fonts.ready.then(() => {
+      if (!cancelled) setFontsReady(true);
+    });
+    const fallback = window.setTimeout(() => {
+      if (!cancelled) setFontsReady(true);
+    }, 1500);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(fallback);
+    };
+  }, []);
 
   function handleSubmit(next: string) {
     const user = auth.currentUser;
@@ -66,8 +87,8 @@ function App() {
   const displayName = auth.currentUser?.displayName ?? undefined;
 
   return (
-    <div className="App">
-      <div className="aurora" aria-hidden="true" />
+    <div className={`App${fontsReady ? " fonts-ready" : ""}`}>
+      <ShaderBackdrop />
       <div className="vignette" aria-hidden="true" />
       <div className="grain" aria-hidden="true" />
 

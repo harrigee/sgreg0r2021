@@ -27,7 +27,7 @@ function RichContent({ value }: { value: string }) {
   );
 }
 
-function AnimatedPhrase({ text }: { text: string }) {
+function AnimatedPhrase({ text, mode }: { text: string; mode: "in" | "out" }) {
   let charIdx = 0;
   const words = text.split(/(\s+)/);
 
@@ -50,14 +50,14 @@ function AnimatedPhrase({ text }: { text: string }) {
               return (
                 <span
                   key={`c-${wi}-${ci}`}
-                  className="char in"
+                  className={`char ${mode}`}
                   style={{ ["--i" as any]: i } as React.CSSProperties}
                 >
                   {ch}
                 </span>
               );
             })}
-            {wi === words.length - 1 && (
+            {mode === "in" && wi === words.length - 1 && (
               <span
                 className="caret"
                 style={{
@@ -115,6 +115,32 @@ export function Content({
   const hasContent = value != null && value !== "";
   const showImage = hasContent ? hasImageContent(value!) : false;
 
+  // Remember the previous rendered phrase so we can animate it out while the
+  // new one animates in.
+  const [outgoing, setOutgoing] = useState<{ text: string; key: number } | null>(null);
+  const prevValueRef = useRef<string | undefined>(value);
+  const outgoingTimerRef = useRef<number | null>(null);
+  useEffect(() => {
+    const prev = prevValueRef.current;
+    prevValueRef.current = value;
+    if (prev && value && prev !== value && !hasImageContent(prev) && !hasImageContent(value)) {
+      if (outgoingTimerRef.current != null) {
+        window.clearTimeout(outgoingTimerRef.current);
+      }
+      setOutgoing({ text: prev, key: Date.now() });
+      outgoingTimerRef.current = window.setTimeout(() => {
+        setOutgoing(null);
+        outgoingTimerRef.current = null;
+      }, 750);
+    }
+    return () => {
+      if (outgoingTimerRef.current != null) {
+        window.clearTimeout(outgoingTimerRef.current);
+        outgoingTimerRef.current = null;
+      }
+    };
+  }, [value]);
+
   // Fit phrase text to the stage area
   useLayoutEffect(() => {
     const el = phraseRef.current;
@@ -123,14 +149,16 @@ export function Content({
 
     const fit = () => {
       el.style.setProperty("--auto", "1");
-      const wrap = el.parentElement as HTMLElement | null;
+      const wrap = el.closest(".phrase-wrap") as HTMLElement | null;
       const sr = stage.getBoundingClientRect();
       // Subtract siblings (phrase-rail above, composer/nudge below) so the
       // phrase only claims the space actually available to it.
       let siblingsH = 0;
       if (wrap) {
         Array.from(wrap.children).forEach((c) => {
-          if (c !== el) siblingsH += (c as HTMLElement).offsetHeight;
+          if (!(c as HTMLElement).contains(el)) {
+            siblingsH += (c as HTMLElement).offsetHeight;
+          }
         });
       }
       const availH = Math.max(80, sr.height - siblingsH - 24);
@@ -175,10 +203,11 @@ export function Content({
     const loop = () => {
       curX += (targetX - curX) * 0.06;
       curY += (targetY - curY) * 0.06;
-      const rotY = curX * 5;
-      const rotX = -curY * 3;
-      const tx = curX * 10;
-      const ty = curY * 6;
+      // Lean toward the pointer: the edge closest to the cursor tilts forward.
+      const rotY = -curX * 9;
+      const rotX = curY * 6;
+      const tx = curX * 12;
+      const ty = curY * 8;
       el.style.transform = `translate3d(${tx}px, ${ty}px, 0) rotateY(${rotY}deg) rotateX(${rotX}deg)`;
       raf = requestAnimationFrame(loop);
     };
@@ -197,7 +226,7 @@ export function Content({
         <div className="phrase-rail">
           <div className="phrase-kicker">
             <span className="bar" />
-            {value == null ? "Listening" : "The phrase"}
+            The phrase
           </div>
           <div className="spacer" />
           <div className="phrase-meta-tr">
@@ -213,28 +242,42 @@ export function Content({
         </div>
 
         {value == null && (
-          <h1 className="phrase dim" ref={phraseRef}>
-            <span className="loading-dots" aria-hidden="true">
-              <span />
-              <span />
-              <span />
-            </span>
-          </h1>
+          <>
+            <h1 className="phrase loading" ref={phraseRef}>
+              <span className="loading-dots" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </span>
+            </h1>
+            <div className="composer-wrap" aria-hidden="true" />
+          </>
         )}
 
         {value != null && !showImage && (
-          <h1
-            className={`phrase${hasContent ? "" : " dim"}`}
-            ref={phraseRef}
-            aria-live="polite"
-            key={value || "empty"}
-          >
-            {hasContent ? (
-              <AnimatedPhrase text={value!} />
-            ) : (
-              "start typing…"
+          <div className="phrase-stack">
+            {outgoing && (
+              <h1
+                key={`out-${outgoing.key}`}
+                className="phrase phrase-outgoing"
+                aria-hidden="true"
+              >
+                <AnimatedPhrase text={outgoing.text} mode="out" />
+              </h1>
             )}
-          </h1>
+            <h1
+              className={`phrase${hasContent ? "" : " dim"}`}
+              ref={phraseRef}
+              aria-live="polite"
+              key={value || "empty"}
+            >
+              {hasContent ? (
+                <AnimatedPhrase text={value!} mode="in" />
+              ) : (
+                "start typing…"
+              )}
+            </h1>
+          </div>
         )}
 
         {value != null && showImage && (

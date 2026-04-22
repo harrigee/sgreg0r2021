@@ -4,13 +4,13 @@
 
 :root {
   /* Dark palette — warm ochre + muted sage accents */
-  --bg:            #0D0D10;
-  --bg-2:          #141418;
-  --ink:           #EDEAE2;
-  --ink-dim:       #B5B0A6;
-  --ink-faint:     #858076;
-  --hair:          rgba(237, 234, 226, 0.11);
-  --hair-strong:   rgba(237, 234, 226, 0.2);
+  --bg:            #07070A;
+  --bg-2:          #0E0E12;
+  --ink:           #F8F6F0;
+  --ink-dim:       #D1CCC2;
+  --ink-faint:     #A29D92;
+  --hair:          rgba(248, 246, 240, 0.12);
+  --hair-strong:   rgba(248, 246, 240, 0.22);
   --accent:        #D4A574;
   --accent-rgb:    212, 165, 116;
   --accent-soft:   rgba(212, 165, 116, 0.14);
@@ -43,7 +43,7 @@ body {
 html,
 body {
   height: 100%;
-  background: radial-gradient(120% 90% at 50% 0%, #16161C 0%, #0D0D10 55%, #08080A 100%);
+  background: radial-gradient(120% 90% at 50% 0%, #0F0F15 0%, #07070A 55%, #030305 100%);
   color: var(--ink);
 }
 

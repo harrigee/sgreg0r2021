@@ -14,8 +14,22 @@
   overflow: hidden;
 }
 
+/* Hide text-bearing shell until Geist is ready so we don't paint the page in
+   the fallback font and then reflow on swap. Background layers stay visible. */
+.App > .topbar,
+.App > .stage,
+.App > .bottom {
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.App.fonts-ready > .topbar,
+.App.fonts-ready > .stage,
+.App.fonts-ready > .bottom {
+  opacity: 1;
+}
+
 /* ---------- Background layers ---------- */
-/* Static radial gradients — no animation, no filter, no blend mode. */
+/* Static radial gradients — used as WebGL fallback. */
 .aurora {
   position: fixed;
   inset: 0;
@@ -26,6 +40,17 @@
     radial-gradient(55% 50% at 82% 78%, rgba(var(--accent2-rgb), 0.3), transparent 60%),
     radial-gradient(45% 40% at 70% 18%, rgba(var(--accent-rgb), 0.16), transparent 60%),
     radial-gradient(45% 40% at 26% 82%, rgba(var(--accent2-rgb), 0.18), transparent 60%);
+}
+
+/* Animated WebGL aurora — replaces the static .aurora when WebGL is available. */
+.aurora-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  display: block;
 }
 
 .grain {
@@ -71,7 +96,6 @@
 
 .brand {
   display: inline-block;
-  color: var(--ink);
   text-decoration: none;
   font-family: var(--f-display);
   font-size: 17px;
@@ -81,11 +105,32 @@
   white-space: nowrap;
   font-feature-settings: 'kern' 1, 'calt' 1, 'ss01', 'ss02', 'cv11';
   cursor: pointer;
-  background: none;
   border: 0;
   padding: 0;
+  background: linear-gradient(
+    100deg,
+    var(--ink) 0%,
+    var(--ink) 32%,
+    #FFFFFF 48%,
+    var(--accent) 54%,
+    var(--ink) 70%,
+    var(--ink) 100%
+  );
+  background-size: 240% 100%;
+  background-position: 110% 50%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  transition: background-position 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.brand .zero { color: var(--accent); }
+.brand:hover {
+  background-position: -20% 50%;
+}
+.brand .zero {
+  color: var(--accent);
+  -webkit-text-fill-color: var(--accent);
+}
 
 .center-meta {
   text-align: center;
@@ -215,6 +260,7 @@
   line-height: 1.6;
   text-align: right;
   justify-self: end;
+  min-height: 2.4em;
 }
 .phrase-meta-tr b {
   color: var(--accent2);
@@ -246,9 +292,30 @@
   font-size: calc(clamp(24px, var(--base), 60px) * var(--fit) * var(--auto));
   letter-spacing: -0.02em;
 }
+/* Loading state keeps the full phrase font size so it reserves the same
+   vertical space as a loaded phrase — no jump when content arrives. */
+.phrase.loading {
+  color: var(--ink-faint);
+}
 .phrase-image {
   font-size: 1.25rem !important;
   text-align: center;
+}
+
+/* Stacks the incoming and outgoing phrase on top of each other for morphs. */
+.phrase-stack {
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  place-items: center;
+}
+.phrase-stack > .phrase {
+  grid-area: 1 / 1;
+  width: 100%;
+}
+.phrase-outgoing {
+  pointer-events: none;
 }
 .phrase .word {
   display: inline-block;
@@ -323,6 +390,7 @@
   display: grid;
   place-items: center;
   width: 100%;
+  min-height: 112px;
   padding: 8px 0 0;
 }
 
