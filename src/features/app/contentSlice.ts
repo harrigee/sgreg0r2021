@@ -4,6 +4,7 @@ import { RootState } from "../../app/store";
 export interface IContentState {
   value?: string;
   user?: string;
+  email?: string;
 }
 
 export const contentSlice = createSlice({
